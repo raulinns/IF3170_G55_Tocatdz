@@ -351,12 +351,12 @@ class RunContext:
             return tied[0]
         return self.rng.choice(tied)
 
-    def evaluate(self, state: State) -> float:
+    def evaluate(self, state: State, *, track_best: bool = True) -> float:
         self.check_cancelled()
         self.check_budget(1)
         value = evaluate(self.problem, state, self.config.objective)
         self.evaluations += 1
-        if value > self.best_objective:
+        if track_best and value > self.best_objective:
             self.best_objective = value
             self.best_state = state
         return value
