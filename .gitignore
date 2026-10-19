@@ -4,6 +4,11 @@ __pycache__/
 *.egg-info/
 .venv/
 
+# React build
+frontend/node_modules/
+frontend/dist/
+frontend/*.tsbuildinfo
+
 # LaTeX build files
 *.aux
 *.bbl
