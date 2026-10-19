@@ -147,6 +147,7 @@ class TracePoint:
     accepted: bool | None = None
     generation: int | None = None
     stuck: bool | None = None
+    population_mean_objective: float | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -161,6 +162,7 @@ class TracePoint:
             "accepted": self.accepted,
             "generation": self.generation,
             "stuck": self.stuck,
+            "population_mean_objective": self.population_mean_objective,
         }
 
     @classmethod
@@ -185,6 +187,11 @@ class TracePoint:
             if data.get("generation") is None
             else int(data["generation"]),
             stuck=None if data.get("stuck") is None else bool(data["stuck"]),
+            population_mean_objective=(
+                None
+                if data.get("population_mean_objective") is None
+                else float(data["population_mean_objective"])
+            ),
         )
 
 
@@ -372,6 +379,7 @@ class RunContext:
         accepted: bool | None = None,
         generation: int | None = None,
         stuck: bool | None = None,
+        population_mean_objective: float | None = None,
     ) -> TracePoint:
         point = TracePoint(
             step=self._step,
@@ -385,6 +393,7 @@ class RunContext:
             accepted=accepted,
             generation=generation,
             stuck=stuck,
+            population_mean_objective=population_mean_objective,
         )
         self._step += 1
         self.trace.append(point)
