@@ -1,0 +1,122 @@
+{
+  "algorithm": "random_restart",
+  "algorithm_name": "Hill Climbing · Random Restart",
+  "objective": "total_value",
+  "seed": 2026,
+  "stopped_reason": "restart_limit",
+  "iterations": 7,
+  "evaluations": 885,
+  "elapsed_seconds": 0.1333433999971021,
+  "initial_objective": 106.0,
+  "final_objective": 121.0,
+  "best_objective": 121.0,
+  "best_total_value": 121.0,
+  "best_urgency_score": 59.166666666666664,
+  "inside_count": 8,
+  "outside_count": 4,
+  "trucks": {
+    "T1": {
+      "weight": 30.0,
+      "value": 121.0,
+      "package_count": 8
+    }
+  },
+  "final_summary": {
+    "objective": 121.0,
+    "total_value": 121.0,
+    "urgency_score": 59.166666666666664,
+    "inside_count": 8,
+    "outside_count": 4,
+    "trucks": {
+      "T1": {
+        "weight": 30.0,
+        "value": 121.0,
+        "package_count": 8
+      }
+    }
+  },
+  "algorithm_metrics": {
+    "attempts": 11,
+    "restarts_completed": 10,
+    "best_restart": 10,
+    "per_restart": [
+      {
+        "restart": 0,
+        "iterations": 1,
+        "evaluations": 99,
+        "initial_objective": 106.0,
+        "final_objective": 110.0
+      },
+      {
+        "restart": 1,
+        "iterations": 0,
+        "evaluations": 51,
+        "initial_objective": 115.0,
+        "final_objective": 115.0
+      },
+      {
+        "restart": 2,
+        "iterations": 0,
+        "evaluations": 51,
+        "initial_objective": 112.0,
+        "final_objective": 112.0
+      },
+      {
+        "restart": 3,
+        "iterations": 1,
+        "evaluations": 102,
+        "initial_objective": 102.0,
+        "final_objective": 107.0
+      },
+      {
+        "restart": 4,
+        "iterations": 1,
+        "evaluations": 96,
+        "initial_objective": 105.0,
+        "final_objective": 115.0
+      },
+      {
+        "restart": 5,
+        "iterations": 0,
+        "evaluations": 43,
+        "initial_objective": 118.0,
+        "final_objective": 118.0
+      },
+      {
+        "restart": 6,
+        "iterations": 2,
+        "evaluations": 152,
+        "initial_objective": 104.0,
+        "final_objective": 117.0
+      },
+      {
+        "restart": 7,
+        "iterations": 1,
+        "evaluations": 100,
+        "initial_objective": 106.0,
+        "final_objective": 109.0
+      },
+      {
+        "restart": 8,
+        "iterations": 1,
+        "evaluations": 81,
+        "initial_objective": 109.0,
+        "final_objective": 110.0
+      },
+      {
+        "restart": 9,
+        "iterations": 0,
+        "evaluations": 60,
+        "initial_objective": 113.0,
+        "final_objective": 113.0
+      },
+      {
+        "restart": 10,
+        "iterations": 0,
+        "evaluations": 50,
+        "initial_objective": 121.0,
+        "final_objective": 121.0
+      }
+    ]
+  }
+}

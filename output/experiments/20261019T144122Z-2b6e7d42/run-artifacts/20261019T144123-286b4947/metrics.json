@@ -1,0 +1,42 @@
+{
+  "algorithm": "sideways",
+  "algorithm_name": "Hill Climbing · Sideways",
+  "objective": "total_value",
+  "seed": 2026,
+  "stopped_reason": "sideways_limit",
+  "iterations": 103,
+  "evaluations": 5936,
+  "elapsed_seconds": 0.42445210000732914,
+  "initial_objective": 103.0,
+  "final_objective": 109.0,
+  "best_objective": 109.0,
+  "best_total_value": 109.0,
+  "best_urgency_score": 73.0,
+  "inside_count": 5,
+  "outside_count": 7,
+  "trucks": {
+    "T1": {
+      "weight": 30.0,
+      "value": 109.0,
+      "package_count": 5
+    }
+  },
+  "final_summary": {
+    "objective": 109.0,
+    "total_value": 109.0,
+    "urgency_score": 73.0,
+    "inside_count": 5,
+    "outside_count": 7,
+    "trucks": {
+      "T1": {
+        "weight": 30.0,
+        "value": 109.0,
+        "package_count": 5
+      }
+    }
+  },
+  "algorithm_metrics": {
+    "sideways_moves": 101,
+    "max_consecutive_sideways": 100
+  }
+}

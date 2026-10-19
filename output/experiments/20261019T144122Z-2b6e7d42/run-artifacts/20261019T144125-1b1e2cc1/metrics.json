@@ -1,0 +1,45 @@
+{
+  "algorithm": "simulated_annealing",
+  "algorithm_name": "Simulated Annealing",
+  "objective": "total_value",
+  "seed": 42,
+  "stopped_reason": "budget_exhausted",
+  "iterations": 1455,
+  "evaluations": 50000,
+  "elapsed_seconds": 15.721228900001734,
+  "initial_objective": 112.0,
+  "final_objective": 112.0,
+  "best_objective": 121.0,
+  "best_total_value": 121.0,
+  "best_urgency_score": 59.166666666666664,
+  "inside_count": 8,
+  "outside_count": 4,
+  "trucks": {
+    "T1": {
+      "weight": 30.0,
+      "value": 121.0,
+      "package_count": 8
+    }
+  },
+  "final_summary": {
+    "objective": 112.0,
+    "total_value": 112.0,
+    "urgency_score": 61.5,
+    "inside_count": 7,
+    "outside_count": 5,
+    "trucks": {
+      "T1": {
+        "weight": 29.0,
+        "value": 112.0,
+        "package_count": 7
+      }
+    }
+  },
+  "algorithm_metrics": {
+    "accepted_moves": 1369,
+    "rejected_moves": 86,
+    "downhill_moves_accepted": 151,
+    "stuck_episodes": 49,
+    "final_temperature": 10.233041383315669
+  }
+}

@@ -1,8 +1,6 @@
 from __future__ import annotations
 
 from collections import defaultdict
-from io import BytesIO
-
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
@@ -135,55 +133,15 @@ def make_objective_figure(
     return _base_layout(fig, x_title=x_title, y_title="Nilai objective / fitness")
 
 
-def _make_png(fig: go.Figure) -> bytes:
-    """Render chart data to PNG using the project's existing Matplotlib dependency."""
-    import matplotlib
-
-    matplotlib.use("Agg")
-    import matplotlib.pyplot as plt
-
-    data = fig.to_dict()
-    figure, axis = plt.subplots(figsize=(9, 4.5), constrained_layout=True)
-    for trace in data.get("data", []):
-        x, y = trace.get("x", []), trace.get("y", [])
-        if not x or not y:
-            continue
-        line = trace.get("line", {})
-        marker = trace.get("marker", {})
-        linestyle = {"dash": "--", "dot": ":", "dashdot": "-.", "solid": "-"}.get(line.get("dash"), "-")
-        mode = trace.get("mode", "lines")
-        axis.plot(
-            x, y,
-            label=trace.get("name"),
-            color=line.get("color", marker.get("color")),
-            linewidth=line.get("width", 2),
-            linestyle=linestyle if "lines" in mode else "None",
-            marker="o" if "markers" in mode else None,
-            markersize=marker.get("size", 5),
-        )
-    layout = data.get("layout", {})
-    axis.set_title(layout.get("title", {}).get("text", ""))
-    axis.set_xlabel(layout.get("xaxis", {}).get("title", {}).get("text", ""))
-    axis.set_ylabel(layout.get("yaxis", {}).get("title", {}).get("text", ""))
-    if layout.get("yaxis", {}).get("type") == "log":
-        axis.set_yscale("log")
-    axis.grid(alpha=0.25)
-    if any(trace.get("name") for trace in data.get("data", [])):
-        axis.legend(loc="best", fontsize="small")
-    output = BytesIO()
-    figure.savefig(output, format="png", dpi=150)
-    plt.close(figure)
-    return output.getvalue()
-
-
 def _render_chart(fig: go.Figure, *, key: str, download_name: str) -> None:
-    st.plotly_chart(fig, width="stretch", key=key, config={"displaylogo": False})
-    st.download_button(
-        "Unduh grafik PNG",
-        data=_make_png(fig),
-        file_name=download_name,
-        mime="image/png",
-        key=f"{key}_png",
+    st.plotly_chart(
+        fig,
+        width="stretch",
+        key=key,
+        config={
+            "displaylogo": False,
+            "toImageButtonOptions": {"filename": download_name.removesuffix(".png")},
+        },
     )
 
 
@@ -283,8 +241,8 @@ def render_trace(result: SearchResult) -> None:
                       key="sa_temperature", download_name="simulated-annealing-temperature.png")
         st.metric("Episode stuck", sum(point.stuck is True for point in result.trace))
 
-    st.caption("Data grafik juga tersedia sebagai tabel; nilainya berasal dari trajectory run ini.")
-    st.dataframe(pd.DataFrame(result.trace_rows()), hide_index=True, width="stretch")
+    with st.expander("Data trajectory"):
+        st.dataframe(pd.DataFrame(result.trace_rows()), hide_index=True, width="stretch")
 
 
 __all__ = ["make_objective_figure", "render_trace"]

@@ -1,0 +1,52 @@
+{
+  "placements": [
+    {
+      "package_id": "A",
+      "truck_id": null,
+      "position": null,
+      "orientation": 0
+    },
+    {
+      "package_id": "B",
+      "truck_id": "T1",
+      "position": {
+        "x": 2,
+        "y": 0,
+        "z": 0
+      },
+      "orientation": 3
+    },
+    {
+      "package_id": "C",
+      "truck_id": "T1",
+      "position": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "orientation": 4
+    },
+    {
+      "package_id": "D",
+      "truck_id": "T1",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "orientation": 3
+    },
+    {
+      "package_id": "E",
+      "truck_id": null,
+      "position": null,
+      "orientation": 0
+    },
+    {
+      "package_id": "F",
+      "truck_id": null,
+      "position": null,
+      "orientation": 0
+    }
+  ]
+}

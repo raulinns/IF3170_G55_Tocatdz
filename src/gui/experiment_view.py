@@ -13,6 +13,8 @@ from domain.model import ObjectiveKind, Problem
 from experiments import ExperimentConfig, PROTOCOLS, build_run_specs, run_experiment
 from problem_io.problem_json import parse_problem_json, problem_to_data
 
+from .theme import render_section, render_success
+
 
 _PROTOCOL_LABELS = {
     "specification": "Spesifikasi non-GA · 15 run",
@@ -36,11 +38,7 @@ def _selected_problem(editor_problem: Problem, fixture_label: str) -> Problem:
     fixture_name = _FIXTURE_FILES[fixture_label]
     if fixture_name is None:
         return editor_problem
-    fixture_path = (
-        Path(__file__).resolve().parents[2]
-        / "tests"
-        / fixture_name
-    )
+    fixture_path = Path(__file__).resolve().parents[2] / "tests" / fixture_name
     return parse_problem_json(fixture_path.read_bytes())
 
 
@@ -54,7 +52,7 @@ def _run_matrix(config: ExperimentConfig) -> pd.DataFrame:
                 "Algoritma": run_config.algorithm.value,
                 "Seed": run_config.seed,
                 "Konfigurasi": spec.group_label,
-                "Budget evaluasi": run_config.max_evaluations,
+                "Budget": run_config.max_evaluations,
                 "Parameter": json.dumps(
                     {
                         "population_size": run_config.population_size,
@@ -71,175 +69,182 @@ def _run_matrix(config: ExperimentConfig) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
-def _render_results(result: dict[str, Any]) -> None:
-    st.subheader("Hasil eksperimen")
-    counts = st.columns(3)
-    counts[0].metric("Run berhasil", result["successful_runs"])
-    counts[1].metric("Run gagal", result["failed_runs"])
-    counts[2].metric("Total run", result["expected_runs"])
-    st.caption(f"ID eksperimen: `{result['experiment_id']}` · `{result['experiment_dir']}`")
-    st.caption("Ringkasan tiga seed bersifat deskriptif, bukan klaim signifikansi statistik.")
-
-    runs = pd.DataFrame(result["runs"])
-    summary = pd.DataFrame(result["summary"])
-    if runs.empty:
-        st.info("Belum ada hasil run untuk ditampilkan.")
-        return
-
-    st.markdown("#### Filter hasil")
-    filter_columns = st.columns(3)
+def _filtered_runs(runs: pd.DataFrame) -> pd.DataFrame:
     algorithms = sorted(runs["algorithm"].dropna().unique().tolist())
     seeds = sorted(runs["seed"].dropna().unique().tolist())
     groups = sorted(runs["group_label"].dropna().unique().tolist())
-    with filter_columns[0]:
+    columns = st.columns(3)
+    with columns[0]:
         selected_algorithms = st.multiselect(
             "Algoritma", algorithms, default=algorithms, key="experiment_algorithm_filter"
         )
-    with filter_columns[1]:
+    with columns[1]:
         selected_seeds = st.multiselect(
             "Seed", seeds, default=seeds, key="experiment_seed_filter"
         )
-    with filter_columns[2]:
+    with columns[2]:
         selected_groups = st.multiselect(
             "Konfigurasi", groups, default=groups, key="experiment_group_filter"
         )
-
-    filtered = runs[
+    return runs[
         runs["algorithm"].isin(selected_algorithms)
         & runs["seed"].isin(selected_seeds)
         & runs["group_label"].isin(selected_groups)
     ]
-    st.caption(f"Menampilkan {len(filtered)} dari {len(runs)} run; grafik mengikuti filter ini.")
-    visible_columns = [
-        column
-        for column in (
-            "status",
-            "algorithm",
-            "seed",
-            "group_label",
-            "best_objective",
-            "best_total_value",
-            "evaluations",
-            "iterations",
-            "elapsed_seconds",
-            "stopped_reason",
-            "sideways_moves",
-            "restarts_completed",
-            "generations_completed",
-            "error",
-            "artifact_path",
-        )
-        if column in filtered.columns
-    ]
-    st.dataframe(filtered[visible_columns], hide_index=True, width="stretch")
 
-    st.markdown("#### Ringkasan engine (semua run eksperimen)")
-    st.dataframe(summary, hide_index=True, width="stretch")
-    successful_filtered = filtered[filtered["status"] == "success"]
-    chart_summary = (
-        successful_filtered.groupby("group_label", as_index=False)
-        .agg(
-            best_objective=("best_objective", "median"),
-            elapsed_seconds=("elapsed_seconds", "median"),
-            evaluations=("evaluations", "median"),
-        )
-        if not successful_filtered.empty
-        else pd.DataFrame()
+
+def _render_comparison_chart(runs: pd.DataFrame) -> None:
+    successful = runs[runs["status"] == "success"]
+    if successful.empty:
+        st.info("Belum ada run berhasil untuk divisualisasikan.")
+        return
+
+    chart_summary = successful.groupby("group_label", as_index=False).agg(
+        best_objective=("best_objective", "median"),
+        elapsed_seconds=("elapsed_seconds", "median"),
+        evaluations=("evaluations", "median"),
     )
-    chart_tab, data_tab = st.tabs(["Grafik perbandingan", "Data unduhan"])
-    with chart_tab:
-        chart_specs = (
-            ("best_objective", "Median best objective"),
-            ("elapsed_seconds", "Median durasi (detik)"),
-            ("evaluations", "Median jumlah evaluasi"),
-        )
-        chart_columns = st.columns(3)
-        for column, (metric, title) in zip(chart_columns, chart_specs):
-            chart_data = chart_summary
-            with column:
-                st.markdown(f"**{title}**")
-                if chart_data.empty or chart_data[metric].isna().all():
-                    st.info("Belum ada run berhasil untuk grafik ini.")
-                else:
-                    figure = px.bar(
-                        chart_data,
-                        x="group_label",
-                        y=metric,
-                        labels={"group_label": "Konfigurasi", metric: title},
-                        text_auto=".3g",
-                    )
-                    figure.update_layout(
-                        showlegend=False,
-                        margin={"l": 8, "r": 8, "t": 8, "b": 48},
-                        xaxis_title=None,
-                        yaxis_title=title,
-                    )
-                    st.plotly_chart(figure, width="stretch")
-    with data_tab:
-        st.download_button(
-            "Unduh runs.csv",
-            data=runs.to_csv(index=False).encode("utf-8"),
-            file_name=f"{result['experiment_id']}-runs.csv",
-            mime="text/csv",
-            width="stretch",
-        )
-        st.download_button(
-            "Unduh summary.csv",
-            data=summary.to_csv(index=False).encode("utf-8"),
-            file_name=f"{result['experiment_id']}-summary.csv",
-            mime="text/csv",
-            width="stretch",
-        )
+    metric_labels = {
+        "best_objective": "Median best objective",
+        "elapsed_seconds": "Median durasi (detik)",
+        "evaluations": "Median evaluasi",
+    }
+    metric = st.selectbox(
+        "Metrik perbandingan",
+        list(metric_labels),
+        format_func=metric_labels.get,
+        key="experiment_chart_metric",
+    )
+    figure = px.bar(
+        chart_summary,
+        x="group_label",
+        y=metric,
+        color="group_label",
+        labels={"group_label": "Konfigurasi", metric: metric_labels[metric]},
+        text_auto=".3g",
+        color_discrete_sequence=["#315CF4", "#12A594", "#F97316", "#8B5CF6"],
+    )
+    figure.update_layout(
+        height=420,
+        showlegend=False,
+        margin={"l": 16, "r": 16, "t": 20, "b": 60},
+        paper_bgcolor="#FFFFFF",
+        plot_bgcolor="#FFFFFF",
+        font={"family": "Aptos, Segoe UI Variable Text, Inter, sans-serif"},
+        xaxis_title=None,
+        yaxis_title=metric_labels[metric],
+        yaxis_gridcolor="#E5E9F0",
+    )
+    st.plotly_chart(figure, width="stretch", config={"displaylogo": False})
+
+
+def _render_results(result: dict[str, Any]) -> None:
+    render_section("03", "Hasil eksperimen")
+    counts = st.columns(3)
+    counts[0].metric("Berhasil", result["successful_runs"])
+    counts[1].metric("Gagal", result["failed_runs"])
+    counts[2].metric("Total run", result["expected_runs"])
+
+    runs = pd.DataFrame(result["runs"])
+    summary = pd.DataFrame(result["summary"])
+    if runs.empty:
+        st.info("Belum ada hasil run.")
+        return
+
+    overview_tab, runs_tab, export_tab = st.tabs(["Perbandingan", "Detail run", "Ekspor"])
+    with overview_tab:
+        _render_comparison_chart(runs)
+        with st.expander("Ringkasan agregat"):
+            st.dataframe(summary, hide_index=True, width="stretch")
+
+    with runs_tab:
+        filtered = _filtered_runs(runs)
+        visible_columns = [
+            column
+            for column in (
+                "status",
+                "algorithm",
+                "seed",
+                "group_label",
+                "best_objective",
+                "best_total_value",
+                "evaluations",
+                "iterations",
+                "elapsed_seconds",
+                "stopped_reason",
+                "error",
+            )
+            if column in filtered.columns
+        ]
+        st.dataframe(filtered[visible_columns], hide_index=True, width="stretch")
+
+    with export_tab:
+        download_runs, download_summary = st.columns(2)
+        with download_runs:
+            st.download_button(
+                "Unduh runs.csv",
+                data=runs.to_csv(index=False).encode("utf-8"),
+                file_name=f"{result['experiment_id']}-runs.csv",
+                mime="text/csv",
+                width="stretch",
+            )
+        with download_summary:
+            st.download_button(
+                "Unduh summary.csv",
+                data=summary.to_csv(index=False).encode("utf-8"),
+                file_name=f"{result['experiment_id']}-summary.csv",
+                mime="text/csv",
+                width="stretch",
+            )
+        st.code(str(result["experiment_dir"]), language=None)
 
 
 def render_experiment_area(editor_problem: Problem) -> None:
-    st.markdown('<div class="section-kicker">Experiment workspace</div>', unsafe_allow_html=True)
-    st.subheader("Eksperimen multi-run")
-    st.caption(
-        "Pilih protokol untuk melihat matriks run, lalu jalankan. Setiap run memakai "
-        "runner dan konfigurasi yang sama dengan experiment engine. Jika memilih fixture, "
-        "data fixture yang dipakai, bukan data editor."
-    )
-
-    controls = st.columns([1.4, 1, 1, 1])
-    with controls[0]:
-        fixture_label = st.selectbox("Fixture problem", list(_FIXTURE_FILES))
-    try:
-        problem = _selected_problem(editor_problem, fixture_label)
-    except (OSError, ValueError, ValidationError) as error:
-        st.error(f"Fixture tidak dapat dimuat: {error}")
-        return
-    with controls[1]:
-        protocol = st.selectbox(
-            "Protokol",
-            _VISIBLE_PROTOCOLS,
-            format_func=lambda value: _PROTOCOL_LABELS.get(value, value),
-        )
-    with controls[2]:
-        objective = ObjectiveKind(
-            st.selectbox(
-                "Objective",
-                list(ObjectiveKind),
-                format_func=lambda value: (
-                    "Total value" if value is ObjectiveKind.TOTAL_VALUE else "Value per urgency"
-                ),
+    render_section("02", "Konfigurasi eksperimen")
+    with st.container(border=True):
+        first_row = st.columns([1.25, 1.25])
+        with first_row[0]:
+            fixture_label = st.selectbox("Dataset", list(_FIXTURE_FILES))
+        with first_row[1]:
+            protocol = st.selectbox(
+                "Protokol",
+                _VISIBLE_PROTOCOLS,
+                format_func=lambda value: _PROTOCOL_LABELS.get(value, value),
             )
-        )
-    with controls[3]:
-        seed_text = st.text_input("Seeds", value="42, 137, 2026", help="Pisahkan seed dengan koma.")
 
-    budget_disabled = protocol == "fairness"
-    max_evaluations = st.number_input(
-        "Budget evaluasi per run non-GA",
-        min_value=1,
-        max_value=1_000_000,
-        value=50_000,
-        step=1_000,
-        disabled=budget_disabled,
-        help="Protocol fairness menetapkan budget 50.000 untuk semua algoritma.",
-    )
-    if budget_disabled:
-        st.caption("Budget fairness dikunci ke 50.000 evaluasi per run.")
+        try:
+            problem = _selected_problem(editor_problem, fixture_label)
+        except (OSError, ValueError, ValidationError) as error:
+            st.error(f"Dataset tidak dapat dimuat: {error}")
+            return
+
+        second_row = st.columns([1, 1, 1])
+        with second_row[0]:
+            objective = ObjectiveKind(
+                st.selectbox(
+                    "Objective",
+                    list(ObjectiveKind),
+                    format_func=lambda value: (
+                        "Total value"
+                        if value is ObjectiveKind.TOTAL_VALUE
+                        else "Urgency-adjusted value"
+                    ),
+                )
+            )
+        with second_row[1]:
+            seed_text = st.text_input(
+                "Seeds", value="42, 137, 2026", help="Pisahkan dengan koma."
+            )
+        with second_row[2]:
+            max_evaluations = st.number_input(
+                "Budget per run",
+                min_value=1,
+                max_value=1_000_000,
+                value=50_000,
+                step=1_000,
+                disabled=protocol == "fairness",
+                help="Fairness menggunakan budget tetap 50.000.",
+            )
 
     try:
         seeds = tuple(int(value.strip()) for value in seed_text.split(",") if value.strip())
@@ -255,13 +260,12 @@ def render_experiment_area(editor_problem: Problem) -> None:
         st.error(f"Konfigurasi eksperimen tidak valid: {error}")
         return
 
-    problem_columns = st.columns(3)
-    problem_columns[0].metric("Dataset", fixture_label)
-    problem_columns[1].metric("Truk", len(problem.trucks))
-    problem_columns[2].metric("Paket", len(problem.packages))
-    st.markdown("#### Preview matriks run")
-    st.metric("Estimasi jumlah run", len(matrix))
-    st.dataframe(matrix, hide_index=True, width="stretch")
+    summary_columns = st.columns(3)
+    summary_columns[0].metric("Run", len(matrix))
+    summary_columns[1].metric("Truk", len(problem.trucks))
+    summary_columns[2].metric("Paket", len(problem.packages))
+    with st.expander("Lihat matriks run"):
+        st.dataframe(matrix, hide_index=True, width="stretch")
 
     config_token = json.dumps(
         {
@@ -278,7 +282,7 @@ def render_experiment_area(editor_problem: Problem) -> None:
         st.session_state.pop("experiment_result", None)
         st.session_state["experiment_config_token"] = config_token
 
-    run_col, note_col = st.columns([1, 3])
+    run_col, run_space = st.columns([1.2, 2.8])
     with run_col:
         run_clicked = st.button(
             "Mulai eksperimen",
@@ -286,8 +290,6 @@ def render_experiment_area(editor_problem: Problem) -> None:
             width="stretch",
             key="start_experiment",
         )
-    with note_col:
-        st.caption("Eksperimen berjalan berurutan; hasil run yang gagal tidak menghapus hasil yang berhasil.")
 
     if run_clicked:
         progress = st.progress(0, text=f"Menyiapkan {len(matrix)} run…")
@@ -296,22 +298,18 @@ def render_experiment_area(editor_problem: Problem) -> None:
         def update_progress(done: int, total: int, spec, record) -> None:
             progress.progress(done / total, text=f"Run {done} dari {total}")
             state = "berhasil" if record["status"] == "success" else "gagal"
-            status.caption(
-                f"{spec.config.algorithm.value} · seed {spec.config.seed}: {state}"
-            )
+            status.caption(f"{spec.config.algorithm.value} · seed {spec.config.seed}: {state}")
 
         try:
             result = run_experiment(config, on_progress=update_progress)
         except Exception as error:
-            st.error(f"Eksperimen berhenti sebelum selesai: {error}")
+            st.error(f"Eksperimen berhenti: {error}")
         else:
             st.session_state["experiment_result"] = result
             if result["failed_runs"]:
-                st.warning(
-                    f"Selesai dengan {result['failed_runs']} run gagal. Run berhasil tetap tersedia di bawah."
-                )
+                st.warning(f"Selesai dengan {result['failed_runs']} run gagal.")
             else:
-                st.success("Semua run eksperimen selesai.")
+                render_success("Semua run eksperimen selesai.")
 
     result = st.session_state.get("experiment_result")
     if result is not None:

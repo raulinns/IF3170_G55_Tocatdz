@@ -1,0 +1,42 @@
+{
+  "algorithm": "stochastic",
+  "algorithm_name": "Hill Climbing · Stochastic",
+  "objective": "total_value",
+  "seed": 2026,
+  "stopped_reason": "converged",
+  "iterations": 1,
+  "evaluations": 131,
+  "elapsed_seconds": 0.00831260000995826,
+  "initial_objective": 103.0,
+  "final_objective": 104.0,
+  "best_objective": 104.0,
+  "best_total_value": 104.0,
+  "best_urgency_score": 61.5,
+  "inside_count": 5,
+  "outside_count": 7,
+  "trucks": {
+    "T1": {
+      "weight": 29.0,
+      "value": 104.0,
+      "package_count": 5
+    }
+  },
+  "final_summary": {
+    "objective": 104.0,
+    "total_value": 104.0,
+    "urgency_score": 61.5,
+    "inside_count": 5,
+    "outside_count": 7,
+    "trucks": {
+      "T1": {
+        "weight": 29.0,
+        "value": 104.0,
+        "package_count": 5
+      }
+    }
+  },
+  "algorithm_metrics": {
+    "uphill_moves_selected": 1,
+    "mean_selection_probability": 1.0
+  }
+}
