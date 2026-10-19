@@ -21,11 +21,11 @@ Jalankan antarmuka Streamlit:
 uv run streamlit run src/gui/app.py
 ```
 
-GUI dapat mengedit data truk/paket, upload atau download JSON, memvalidasi input,
-dan menampilkan preview penempatan 3D berdasarkan seed. Seluruh runner Hill
-Climbing, Simulated Annealing, dan Genetic Algorithm sudah terintegrasi. Pilih
-algoritma dan objective, klik **Validasi test case & buat preview**, lalu
-**Mulai pencarian**.
+GUI menyediakan alur data, pencarian, dan eksplorasi hasil yang terpisah. Preview
+3D menampilkan seluruh armada dalam satu kanvas; tombol `Semua` atau ID truk pada
+grafik dapat digunakan untuk mengubah fokus. Seluruh runner Hill Climbing,
+Simulated Annealing, dan Genetic Algorithm sudah terintegrasi. Pilih algoritma dan
+objective, klik **Validasi test case & buat preview**, lalu **Mulai pencarian**.
 
 Tombol reference digunakan sebagai pembanding kualitas solusi. Test case dengan
 maksimal enam paket dapat dihitung exact optimum-nya; test case yang lebih besar
