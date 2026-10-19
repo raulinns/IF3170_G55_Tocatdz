@@ -22,6 +22,7 @@ class AlgorithmKind(StrEnum):
 class StopReason(StrEnum):
     CONVERGED = "converged"
     BUDGET_EXHAUSTED = "budget_exhausted"
+    SIDEWAYS_LIMIT = "sideways_limit"
     ITERATION_LIMIT = "iteration_limit"
     GENERATION_LIMIT = "generation_limit"
     RESTART_LIMIT = "restart_limit"
@@ -148,6 +149,9 @@ class TracePoint:
     generation: int | None = None
     stuck: bool | None = None
     population_mean_objective: float | None = None
+    sideways_moves: int | None = None
+    restart: int | None = None
+    iteration_in_restart: int | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -163,6 +167,9 @@ class TracePoint:
             "generation": self.generation,
             "stuck": self.stuck,
             "population_mean_objective": self.population_mean_objective,
+            "sideways_moves": self.sideways_moves,
+            "restart": self.restart,
+            "iteration_in_restart": self.iteration_in_restart,
         }
 
     @classmethod
@@ -192,6 +199,13 @@ class TracePoint:
                 if data.get("population_mean_objective") is None
                 else float(data["population_mean_objective"])
             ),
+            sideways_moves=None
+            if data.get("sideways_moves") is None
+            else int(data["sideways_moves"]),
+            restart=None if data.get("restart") is None else int(data["restart"]),
+            iteration_in_restart=None
+            if data.get("iteration_in_restart") is None
+            else int(data["iteration_in_restart"]),
         )
 
 
@@ -358,12 +372,12 @@ class RunContext:
             return tied[0]
         return self.rng.choice(tied)
 
-    def evaluate(self, state: State) -> float:
+    def evaluate(self, state: State, *, track_best: bool = True) -> float:
         self.check_cancelled()
         self.check_budget(1)
         value = evaluate(self.problem, state, self.config.objective)
         self.evaluations += 1
-        if value > self.best_objective:
+        if track_best and value > self.best_objective:
             self.best_objective = value
             self.best_state = state
         return value
@@ -380,6 +394,9 @@ class RunContext:
         generation: int | None = None,
         stuck: bool | None = None,
         population_mean_objective: float | None = None,
+        sideways_moves: int | None = None,
+        restart: int | None = None,
+        iteration_in_restart: int | None = None,
     ) -> TracePoint:
         point = TracePoint(
             step=self._step,
@@ -394,6 +411,9 @@ class RunContext:
             generation=generation,
             stuck=stuck,
             population_mean_objective=population_mean_objective,
+            sideways_moves=sideways_moves,
+            restart=restart,
+            iteration_in_restart=iteration_in_restart,
         )
         self._step += 1
         self.trace.append(point)
