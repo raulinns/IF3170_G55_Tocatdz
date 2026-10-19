@@ -3,17 +3,6 @@ __pycache__/
 *.py[cod]
 *.egg-info/
 .venv/
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-.coverage
-htmlcov/
-
-# Frontend
-node_modules/
-src/frontend/dist/
-src/frontend/.svelte-kit/
-*.tsbuildinfo
 
 # LaTeX build files
 *.aux
@@ -23,10 +12,18 @@ src/frontend/.svelte-kit/
 *.fdb_latexmk
 *.fls
 *.log
+*.lof
+*.lot
+*.maf
+*.mtc
+*.mtc0
+*.nav
 *.out
 *.run.xml
+*.snm
 *.synctex.gz
 *.toc
+*.vrb
 
 # Temporary run artifacts
 output/.tmp-*/

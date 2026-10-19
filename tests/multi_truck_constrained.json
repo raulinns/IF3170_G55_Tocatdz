@@ -1,0 +1,33 @@
+{
+  "trucks": [
+    {
+      "id": "T-small",
+      "dimensions": {"width": 5, "length": 4, "height": 3},
+      "max_capacity": 12
+    },
+    {
+      "id": "T-medium",
+      "dimensions": {"width": 7, "length": 5, "height": 4},
+      "max_capacity": 20
+    },
+    {
+      "id": "T-large",
+      "dimensions": {"width": 9, "length": 6, "height": 5},
+      "max_capacity": 28
+    }
+  ],
+  "packages": [
+    {"id": "M1", "dimensions": {"width": 8, "length": 5, "height": 2}, "value": 55, "weight": 16, "is_fragile": false, "eta": 4},
+    {"id": "M2", "dimensions": {"width": 6, "length": 4, "height": 3}, "value": 42, "weight": 12, "is_fragile": false, "eta": 1},
+    {"id": "M3", "dimensions": {"width": 5, "length": 4, "height": 2}, "value": 34, "weight": 10, "is_fragile": false, "eta": 3},
+    {"id": "M4", "dimensions": {"width": 4, "length": 3, "height": 3}, "value": 30, "weight": 9, "is_fragile": false, "eta": 0},
+    {"id": "M5", "dimensions": {"width": 7, "length": 2, "height": 2}, "value": 28, "weight": 8, "is_fragile": false, "eta": 2},
+    {"id": "M6", "dimensions": {"width": 3, "length": 3, "height": 2}, "value": 24, "weight": 7, "is_fragile": true, "eta": 0},
+    {"id": "M7", "dimensions": {"width": 2, "length": 5, "height": 2}, "value": 22, "weight": 6, "is_fragile": false, "eta": 5},
+    {"id": "M8", "dimensions": {"width": 2, "length": 2, "height": 3}, "value": 20, "weight": 5, "is_fragile": true, "eta": 1},
+    {"id": "M9", "dimensions": {"width": 4, "length": 2, "height": 1}, "value": 18, "weight": 4, "is_fragile": false, "eta": 2},
+    {"id": "M10", "dimensions": {"width": 3, "length": 2, "height": 2}, "value": 17, "weight": 4, "is_fragile": false, "eta": 3},
+    {"id": "M11", "dimensions": {"width": 2, "length": 2, "height": 2}, "value": 15, "weight": 3, "is_fragile": false, "eta": 0},
+    {"id": "M12", "dimensions": {"width": 10, "length": 2, "height": 1}, "value": 60, "weight": 10, "is_fragile": false, "eta": 0}
+  ]
+}
