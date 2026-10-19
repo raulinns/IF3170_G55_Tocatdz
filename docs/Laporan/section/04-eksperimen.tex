@@ -1,0 +1,144 @@
+\section{Eksperimen dan Analisis}
+\subsection{Tujuan dan Rancangan Eksperimen}
+Eksperimen dirancang untuk membandingkan kualitas solusi, durasi, konsistensi,
+serta perilaku konvergensi ketiga algoritma. Evaluasi GA memisahkan pengaruh
+banyak generasi dan jumlah populasi melalui dua seri eksperimen terkontrol.
+
+\subsubsection{Komposisi Dataset}
+Dataset dipilih untuk mengevaluasi persoalan pemilihan dan penempatan paket.
+Komposisi sebaiknya mencakup keterbatasan ruang, keterbatasan berat, serta
+paket fragile. Rasio volume dan berat berikut dapat dilaporkan untuk menjelaskan
+karakteristik kasus:
+\begin{equation}
+ R_V=\frac{\sum_i w_i^0\ell_i^0h_i^0}{WLH},\qquad
+ R_M=\frac{\sum_i m_i}{C}.
+\end{equation}
+Rasio ini mendeskripsikan input, bukan bukti bahwa suatu susunan dapat dimuat.
+
+
+\subsubsection{Pengujian Kebenaran Sebelum Eksperimen}
+Sebelum hasil performa digunakan, pengujian harus memeriksa paket yang tepat
+menyentuh dinding, paket yang memotong dinding, kapasitas tepat batas dan
+berlebih, tabrakan volume, paket di lantai, paket melayang, support parsial,
+fragile sebagai penopang, serta perpindahan masuk/keluar. Perubahan paket
+penopang harus diikuti pemeriksaan paket yang terdampak.
+
+Pengujian integrasi memeriksa bahwa final state yang ditampilkan memiliki
+nilai objektif dan status validitas yang sama dengan output tersimpan.
+Untuk GA, jumlah individu, statistik populasi, dan hasil decoding perlu
+diperiksa; untuk SA, temperatur dan probabilitas penerimaan perlu konsisten.
+
+
+\subsubsection{Prosedur Run dan Pencatatan}
+Setiap varian hill-climbing yang dievaluasi dan SA dijalankan tiga kali pada
+konfigurasi yang dinyatakan. Untuk GA disiapkan dua seri: tiga variasi iterasi
+dengan populasi tetap, serta tiga variasi populasi dengan iterasi tetap.
+Setiap konfigurasi pada setiap seri dijalankan tiga kali, sehingga rencana
+ini menghasilkan 18 run GA per dataset.
+
+Seed, parameter, lingkungan, dan definisi interval waktu dicatat. Durasi
+pencarian sebaiknya dipisahkan dari rendering agar biaya visualisasi tidak
+mengaburkan perbandingan. Initial state yang sebanding dapat dipakai untuk
+hill-climbing dan SA; GA memakai populasi awal sehingga perbedaannya harus
+dinyatakan. Perbandingan berdasarkan iterasi saja tidak menyamakan biaya
+komputasi karena satu generasi GA mengevaluasi banyak individu.
+
+
+\subsection{Hasil Eksperimen Hill-Climbing}
+
+
+Untuk steepest-ascent, stochastic, dan sideways, jumlah iterasi hingga berhenti
+dicatat. Sideways juga memerlukan parameter maksimum sideways move. Random
+restart memerlukan maksimum restart, jumlah restart aktual, dan iterasi
+per restart; rincian tersebut ditambahkan apabila varian ini dipilih.
+% Visualisasi aktual dapat disisipkan setelah tersedia.
+
+% Visualisasi aktual dapat disisipkan setelah tersedia.
+
+
+\subsection{Hasil Eksperimen Simulated Annealing}
+
+
+Frekuensi stuck hanya dapat ditafsirkan setelah definisi operasional dan
+aturan penghitungannya ditetapkan. Grafik eksponensial perlu mencantumkan
+konvensi $\Delta E$, penanganan temperatur nol, dan apakah data hanya
+mencakup kandidat yang menurunkan nilai.
+% Visualisasi aktual dapat disisipkan setelah tersedia.
+
+% Visualisasi aktual dapat disisipkan setelah tersedia.
+
+% Visualisasi aktual dapat disisipkan setelah tersedia.
+
+
+\subsection{Hasil Eksperimen Genetic Algorithm}
+\subsubsection{Pengaruh Banyak Iterasi}
+Jumlah populasi ditetapkan sebesar $P_0$, sedangkan banyak generasi divariasikan
+menjadi $G_1,G_2,G_3$ yang berbeda. Parameter lainnya dijaga tetap. Setiap
+konfigurasi dijalankan tiga kali. Generasi digunakan sebagai istilah iterasi GA.
+
+\subsubsection{Pengaruh Jumlah Populasi}
+Banyak generasi ditetapkan sebesar $G_0$, sedangkan jumlah populasi
+divariasikan menjadi $P_1,P_2,P_3$ yang berbeda. Setiap konfigurasi juga
+dijalankan tiga kali.
+\begin{table}[H]\centering\small
+\caption{Rancangan matriks konfigurasi eksperimen GA}\label{tab:ga-config}
+\begin{tabularx}{\linewidth}{@{}lYYYc@{}}\toprule
+Seri & Konfigurasi & Populasi & Generasi & Run\\\midrule
+Iterasi & I1 & $P_0$ & $G_1$ & 3\\
+Iterasi & I2 & $P_0$ & $G_2$ & 3\\
+Iterasi & I3 & $P_0$ & $G_3$ & 3\\
+Populasi & P1 & $P_1$ & $G_0$ & 3\\
+Populasi & P2 & $P_2$ & $G_0$ & 3\\
+Populasi & P3 & $P_3$ & $G_0$ & 3\\\bottomrule
+\end{tabularx}\end{table}
+
+
+\subsubsection{Statistik dan Visualisasi Populasi}
+Jika $\mathcal{P}_g$ merupakan populasi pada generasi $g$ dengan ukuran $P$,
+statistik yang dicatat adalah
+\begin{equation}
+ f_{\max}(g)=\max_{s\in\mathcal{P}_g} f(s),\qquad
+ \bar f(g)=\frac{1}{P}\sum_{s\in\mathcal{P}_g}f(s).
+\end{equation}
+Apabila fitness internal berbeda dari objektif, grafik wajib tetap diberi
+label yang sesuai dan metode agregasinya dijelaskan. Statistik objektif
+individu tidak valid tidak boleh dicampur tanpa penjelasan.
+% Visualisasi aktual dapat disisipkan setelah tersedia.
+
+% Visualisasi aktual dapat disisipkan setelah tersedia.
+
+% Visualisasi aktual dapat disisipkan setelah tersedia.
+
+
+\subsection{Analisis Perbandingan Algoritma}
+\subsubsection{Kualitas Solusi dan Acuan Optimalitas}
+Kualitas dibandingkan melalui nilai objektif pada state valid. Apabila
+optimum $f^*$ diketahui dari pembuktian atau solver pembanding yang sah,
+gap dapat dihitung sebagai $(f^*-f)/f^*$ untuk $f^*>0$.
+Jika optimum tidak diketahui, gunakan istilah solusi terbaik yang ditemukan.
+Untuk kasus dengan $v_i\geq0$, $U=\sum_i v_i$ merupakan batas atas sederhana,
+tetapi dapat sangat longgar karena mengabaikan kendala ruang dan berat.
+Selisih terhadap $U$ tidak boleh dinyatakan sebagai gap terhadap optimum pasti.
+
+
+\subsubsection{Durasi, Konsistensi, dan Konvergensi}
+Tiga run dapat diringkas menggunakan rata-rata, minimum, maksimum, dan
+simpangan baku sampel nilai objektif serta durasi. Jumlah pengulangan yang
+kecil membatasi kekuatan generalisasi. Grafik menjelaskan apakah kenaikan
+nilai berlangsung cepat, berhenti pada plateau, atau berfluktuasi.
+
+
+\subsubsection{Pengaruh Parameter Genetic Algorithm}
+Analisis variasi generasi dan populasi dilakukan terpisah sesuai variabel
+kontrol. Bahas perubahan kualitas akhir, keragaman hasil, dan durasi.
+Peningkatan populasi atau generasi tidak diasumsikan selalu memberi hasil
+lebih baik; kesimpulan harus mengikuti data yang diperoleh.
+
+
+\subsection{Implementasi dan Evaluasi Bonus}
+Rancangan bonus memanfaatkan atribut ETA yang telah tersedia pada paket
+untuk mempertimbangkan urgensi pengiriman. Evaluasi bonus dipisahkan dari
+evaluasi objektif wajib agar perubahan kriteria penilaian dapat dianalisis.
+Spesifikasi juga menyediakan pilihan bonus seluruh varian hill-climbing dan
+multi-truk; pemanfaatan ETA tidak otomatis berarti kedua fitur tersebut
+ikut diterapkan~\cite{spesifikasi}.

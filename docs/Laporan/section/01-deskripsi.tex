@@ -1,0 +1,91 @@
+\section{Deskripsi Persoalan}
+\subsection{Latar Belakang dan Tujuan}
+Pemuatan paket pada truk merupakan persoalan optimasi yang melibatkan pemilihan
+paket dan pengaturan letaknya dalam ruang terbatas. Paket dapat memiliki dimensi,
+nilai, berat, serta sifat kerapuhan yang berbeda. Pemilihan berdasarkan nilai
+semata belum tentu menghasilkan susunan yang dapat dimuat, karena penempatan
+paket juga harus memenuhi batas ruang, kapasitas berat, dan aturan penopangan.
+
+Studi kasus Mejiro Express pada tugas besar ini meminta konfigurasi pemuatan
+paket yang memaksimalkan total nilai muatan sebuah truk~\cite{spesifikasi}.
+Tidak semua paket harus diangkut. Oleh karena itu, solusi mencakup keputusan
+paket mana yang dimuat, posisi paket tersebut, dan orientasinya.
+
+Tujuan pengerjaan adalah merancang representasi solusi, menerapkan salah satu
+varian \textit{hill-climbing}, \textit{simulated annealing} (SA), dan
+\textit{genetic algorithm} (GA), serta mengevaluasi kualitas solusi, durasi
+pencarian, dan konsistensi hasilnya. Evaluasi juga mencakup pengaruh jumlah
+populasi dan banyak iterasi pada GA.
+
+\subsection{Definisi Permasalahan dan Data Masukan}
+Masukan terdiri atas himpunan paket $P=\{1,\ldots,N\}$ dan sebuah truk dengan
+satu peti kemas. Setiap paket berbentuk balok atau kubus. Atribut masukan
+dirangkum pada Tabel~\ref{tab:atribut}. Satuan dimensi harus konsisten antarentitas.
+
+\begin{table}[H]\centering\small
+\caption{Atribut paket dan truk}\label{tab:atribut}
+\begin{tabularx}{\linewidth}{@{}llY@{}}\toprule
+Entitas & Atribut & Makna\\\midrule
+Paket & \texttt{id} & Identitas paket.\\
+ & \texttt{Dimensions} & Lebar, panjang, dan tinggi dasar paket.\\
+ & \texttt{Orientation} & Pemetaan sisi paket terhadap sumbu koordinat.\\
+ & \texttt{Value} & Nilai paket dalam satuan unit.\\
+ & \texttt{Weight} & Berat paket dalam satuan unit berat.\\
+ & \texttt{IsFragile} & Penanda paket pecah-belah.\\
+ & \texttt{ETA} & Perkiraan waktu kedatangan dalam sisa hari.\\\midrule
+Truk & \texttt{Dimensions} & Lebar, panjang, dan tinggi peti kemas.\\
+ & \texttt{MaxCapacity} & Kapasitas maksimum total berat muatan.\\\bottomrule
+\end{tabularx}\end{table}
+
+Ukuran problem set, jumlah paket, distribusi dimensi, berat, dan komposisi paket
+dibebaskan kepada kelompok selama sesuai spesifikasi~\cite{qna}. Kebebasan ini
+disertai kebutuhan mendokumentasikan format input dan syarat validitasnya.
+Tidak ada format test case tetap yang diumumkan asisten pada QnA yang tersedia.
+Pernyataan tersebut tidak menjamin ketiadaan test case tambahan saat demo.
+
+\subsection{Ketentuan dan Batasan Persoalan}
+Ketentuan pemodelan yang menjadi acuan adalah sebagai berikut~\cite{spesifikasi,qna}.
+\begin{enumerate}
+\item Ruang lingkup wajib mencakup satu truk dengan satu peti kemas.
+\item Paket dapat berbeda ukuran, dan tidak seluruh paket harus dimuat.
+      Paket di luar harus seluruhnya berada di luar; paket tidak boleh memotong dinding.
+\item Posisi paket menggunakan koordinat bilangan bulat. Initial state dibentuk acak.
+\item Orientasi menyatakan pemetaan sisi paket ke sumbu; tersedia enam kemungkinan
+      orientasi. Langkah rotasi neighbor adalah $90^\circ$ terhadap sumbu $x$, $y$, atau $z$.
+\item Paket di dalam tidak boleh melayang. Adanya support pada sebagian alas
+      sudah cukup menurut definisi spesifikasi dan klarifikasi asisten.
+\item Paket fragile tidak boleh menjadi support paket lain.
+\item Jumlah berat paket di dalam tidak boleh melebihi kapasitas truk.
+\item Neighbor dibentuk melalui pertukaran, pemindahan, atau rotasi paket.
+      Pemindahan dapat mengubah posisi paket dari dalam ke luar truk maupun sebaliknya.
+\end{enumerate}
+
+\subsection{Tujuan Optimasi dan Keluaran Program}
+Objektif wajib adalah memaksimalkan jumlah nilai paket yang berada di dalam
+peti kemas. Solusi akhir harus memperlihatkan status semua paket, termasuk
+paket yang tidak dimuat, posisi dan orientasi paket yang dimuat, keadaan ruang
+peti kemas, dan nilai objektif state. Visualisasi program juga harus dapat
+menampilkan initial state, final state, dan hasil eksperimen.
+
+\subsection{Klarifikasi dan Asumsi Pemodelan}
+Pertukaran ukuran efektif akibat rotasi merupakan perubahan orientasi, bukan
+perubahan dimensi fisik paket. Sebagai contoh, dimensi dasar $(3,4,1)$ dapat
+memiliki dimensi efektif $(4,3,1)$ setelah rotasi terhadap sumbu $z$. Apabila
+dua atau tiga dimensi sama, orientasi berbeda dapat menghasilkan ukuran
+efektif yang sama; pencatatan orientasi perlu tetap konsisten.
+
+QnA memperbolehkan kelompok menentukan kegunaan ETA dengan justifikasi.
+Pada rancangan solusi ini, ETA digunakan sebagai informasi urgensi untuk
+heuristik dan/atau objektif bonus. ETA yang lebih kecil merepresentasikan
+waktu kedatangan yang lebih dekat. Pemanfaatannya dibedakan dari fungsi
+objektif wajib yang tetap memaksimalkan total nilai paket di dalam truk.
+Aturan prioritas berbasis ETA tidak menghapus kewajiban memenuhi seluruh
+constraint geometris, fragile, dan kapasitas berat.
+
+
+Larangan tumpang tindih volume paket diperlakukan sebagai asumsi geometris
+untuk menghasilkan susunan fisik yang masuk akal. Spesifikasi tidak
+mencantumkannya sebagai butir constraint tersendiri. Asumsi ini perlu
+dipertahankan secara konsisten dalam validasi dan dijelaskan saat demo.
+Tidak ditambahkan kewajiban support seluruh alas, pemeriksaan titik berat,
+ataupun batas beban tumpukan karena ketentuan tersebut tidak diberikan.

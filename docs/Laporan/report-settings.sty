@@ -1,0 +1,29 @@
+% Penyesuaian khusus laporan; preamble.sty mempertahankan template unggahan.
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{pdfpages}
+\renewcommand{\listfigurename}{Daftar Gambar}
+\renewcommand{\listtablename}{Daftar Tabel}
+\renewcommand{\tablename}{Tabel}
+\renewcommand{\appendixname}{Lampiran}
+\setlength{\parindent}{1.25em}
+\setlength{\parskip}{0.3em}
+\setlist{nosep,leftmargin=*}
+\renewcommand{\arraystretch}{1.2}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\lstset{language=Python,columns=fullflexible,keepspaces=true,tabsize=4}
+\newcommand{\NamaKelompok}{Tocatdz}
+\newcommand{\NomorKelompok}{G55}
+\newcommand{\AnggotaA}{Juan Oloando Simanungkalit}
+\newcommand{\NIMA}{13524032}
+\newcommand{\AnggotaB}{Narendra Dharma Wistara M.}
+\newcommand{\NIMB}{13524044}
+\newcommand{\AnggotaC}{Reinhard Alfonzo Hutabarat}
+\newcommand{\NIMC}{13524056}
+\newcommand{\RepoURL}{https://github.com/raulinns/IF3170_G55_Tocatdz.git}
+\newcommand{\gambar}[3]{\IfFileExists{#1}{%
+ \begin{figure}[H]\centering
+ \includegraphics[width=0.86\linewidth,height=7cm,keepaspectratio]{#1}
+ \caption{#2}\label{#3}\end{figure}}{}}
+\hypersetup{pdftitle={Laporan Tugas Besar 1 IF3170},
+ pdfsubject={Optimasi Pemuatan Paket dengan Local Search}}

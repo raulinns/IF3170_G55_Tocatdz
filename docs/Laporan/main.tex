@@ -1,0 +1,39 @@
+% arara: pdflatex
+% arara: pdflatex
+\documentclass[11pt,a4paper]{article}
+
+\PassOptionsToPackage{nohints}{minitoc}
+\input{preamble.sty}
+\input{report-settings.sty}
+
+\newcommand{\ProjectExamType}{Tugas Besar 1}
+\newcommand{\ProjectCourseCode}{IF3170}
+\newcommand{\ProjectCourseName}{Inteligensi Artifisial}
+\newcommand{\ProjectTerm}{Semester I Tahun Akademik 2026/2027}
+
+\title{\textbf{\LARGE Laporan \ProjectExamType}\\[0.35em]
+ \Large \ProjectCourseCode{} --- \ProjectCourseName\\[0.25em]
+ \normalsize \ProjectTerm}
+\author{}
+\date{}
+
+\begin{document}
+\pagenumbering{gobble}
+\input{cover.tex}
+
+\clearpage
+\pagenumbering{roman}
+\tableofcontents
+
+\clearpage
+\pagenumbering{arabic}
+\input{section/01-deskripsi.tex}
+\input{section/02-perancangan.tex}
+\input{section/03-implementasi.tex}
+\input{section/04-eksperimen.tex}
+\input{section/05-kesimpulan.tex}
+\input{section/06-pembagian-tugas.tex}
+\input{section/07-referensi.tex}
+\clearpage
+\input{section/08-lampiran.tex}
+\end{document}
