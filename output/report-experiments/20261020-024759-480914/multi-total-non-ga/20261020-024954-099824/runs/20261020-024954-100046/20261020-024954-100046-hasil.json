@@ -1,0 +1,639 @@
+{
+  "run_id": "20261020-024954-100046",
+  "started_at": "2026-10-20T02:49:54.100046+07:00",
+  "elapsed_seconds": 0.006351215999529813,
+  "artifact_dir": null,
+  "config": {
+    "algorithm": "steepest_ascent",
+    "objective": "total_value",
+    "seed": 42,
+    "max_evaluations": 50000,
+    "max_sideways": 100,
+    "max_iterations": 10000,
+    "num_restarts": 10,
+    "t_min": 0.001,
+    "calibration_samples": 100,
+    "population_size": 50,
+    "generations": 100,
+    "crossover_prob": 0.9,
+    "mutation_prob": null
+  },
+  "metrics": {
+    "algorithm": "steepest_ascent",
+    "algorithm_name": "Hill Climbing · Steepest Ascent",
+    "objective": "total_value",
+    "seed": 42,
+    "stopped_reason": "converged",
+    "iterations": 0,
+    "evaluations": 50,
+    "elapsed_seconds": 0.006351215999529813,
+    "initial_objective": 208.0,
+    "final_objective": 208.0,
+    "best_objective": 208.0,
+    "best_total_value": 208.0,
+    "best_urgency_score": 110.75,
+    "inside_count": 9,
+    "outside_count": 3,
+    "trucks": {
+      "T-large": {
+        "weight": 26.0,
+        "value": 102.0,
+        "package_count": 5
+      },
+      "T-medium": {
+        "weight": 18.0,
+        "value": 62.0,
+        "package_count": 2
+      },
+      "T-small": {
+        "weight": 12.0,
+        "value": 44.0,
+        "package_count": 2
+      }
+    },
+    "final_summary": {
+      "objective": 208.0,
+      "total_value": 208.0,
+      "urgency_score": 110.75,
+      "inside_count": 9,
+      "outside_count": 3,
+      "trucks": {
+        "T-large": {
+          "weight": 26.0,
+          "value": 102.0,
+          "package_count": 5
+        },
+        "T-medium": {
+          "weight": 18.0,
+          "value": 62.0,
+          "package_count": 2
+        },
+        "T-small": {
+          "weight": 12.0,
+          "value": 44.0,
+          "package_count": 2
+        }
+      }
+    },
+    "algorithm_metrics": {
+      "improving_moves": 0
+    }
+  },
+  "result": {
+    "algorithm": "steepest_ascent",
+    "objective": "total_value",
+    "seed": 42,
+    "evaluations_used": 50,
+    "stopped_reason": "converged",
+    "initial_state": {
+      "placements": [
+        {
+          "package_id": "M1",
+          "truck_id": null,
+          "position": null,
+          "orientation": 0
+        },
+        {
+          "package_id": "M10",
+          "truck_id": "T-large",
+          "position": {
+            "x": 4,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 0
+        },
+        {
+          "package_id": "M11",
+          "truck_id": "T-large",
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 4
+        },
+        {
+          "package_id": "M12",
+          "truck_id": null,
+          "position": null,
+          "orientation": 0
+        },
+        {
+          "package_id": "M2",
+          "truck_id": null,
+          "position": null,
+          "orientation": 0
+        },
+        {
+          "package_id": "M3",
+          "truck_id": "T-medium",
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 2
+          },
+          "orientation": 2
+        },
+        {
+          "package_id": "M4",
+          "truck_id": "T-large",
+          "position": {
+            "x": 0,
+            "y": 2,
+            "z": 0
+          },
+          "orientation": 4
+        },
+        {
+          "package_id": "M5",
+          "truck_id": "T-medium",
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 1
+        },
+        {
+          "package_id": "M6",
+          "truck_id": "T-small",
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 4
+        },
+        {
+          "package_id": "M7",
+          "truck_id": "T-large",
+          "position": {
+            "x": 2,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 1
+        },
+        {
+          "package_id": "M8",
+          "truck_id": "T-small",
+          "position": {
+            "x": 2,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 2
+        },
+        {
+          "package_id": "M9",
+          "truck_id": "T-large",
+          "position": {
+            "x": 3,
+            "y": 2,
+            "z": 0
+          },
+          "orientation": 2
+        }
+      ]
+    },
+    "initial_objective": 208.0,
+    "best_state": {
+      "placements": [
+        {
+          "package_id": "M1",
+          "truck_id": null,
+          "position": null,
+          "orientation": 0
+        },
+        {
+          "package_id": "M10",
+          "truck_id": "T-large",
+          "position": {
+            "x": 4,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 0
+        },
+        {
+          "package_id": "M11",
+          "truck_id": "T-large",
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 4
+        },
+        {
+          "package_id": "M12",
+          "truck_id": null,
+          "position": null,
+          "orientation": 0
+        },
+        {
+          "package_id": "M2",
+          "truck_id": null,
+          "position": null,
+          "orientation": 0
+        },
+        {
+          "package_id": "M3",
+          "truck_id": "T-medium",
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 2
+          },
+          "orientation": 2
+        },
+        {
+          "package_id": "M4",
+          "truck_id": "T-large",
+          "position": {
+            "x": 0,
+            "y": 2,
+            "z": 0
+          },
+          "orientation": 4
+        },
+        {
+          "package_id": "M5",
+          "truck_id": "T-medium",
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 1
+        },
+        {
+          "package_id": "M6",
+          "truck_id": "T-small",
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 4
+        },
+        {
+          "package_id": "M7",
+          "truck_id": "T-large",
+          "position": {
+            "x": 2,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 1
+        },
+        {
+          "package_id": "M8",
+          "truck_id": "T-small",
+          "position": {
+            "x": 2,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 2
+        },
+        {
+          "package_id": "M9",
+          "truck_id": "T-large",
+          "position": {
+            "x": 3,
+            "y": 2,
+            "z": 0
+          },
+          "orientation": 2
+        }
+      ]
+    },
+    "best_objective": 208.0,
+    "final_state": {
+      "placements": [
+        {
+          "package_id": "M1",
+          "truck_id": null,
+          "position": null,
+          "orientation": 0
+        },
+        {
+          "package_id": "M10",
+          "truck_id": "T-large",
+          "position": {
+            "x": 4,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 0
+        },
+        {
+          "package_id": "M11",
+          "truck_id": "T-large",
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 4
+        },
+        {
+          "package_id": "M12",
+          "truck_id": null,
+          "position": null,
+          "orientation": 0
+        },
+        {
+          "package_id": "M2",
+          "truck_id": null,
+          "position": null,
+          "orientation": 0
+        },
+        {
+          "package_id": "M3",
+          "truck_id": "T-medium",
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 2
+          },
+          "orientation": 2
+        },
+        {
+          "package_id": "M4",
+          "truck_id": "T-large",
+          "position": {
+            "x": 0,
+            "y": 2,
+            "z": 0
+          },
+          "orientation": 4
+        },
+        {
+          "package_id": "M5",
+          "truck_id": "T-medium",
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 1
+        },
+        {
+          "package_id": "M6",
+          "truck_id": "T-small",
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 4
+        },
+        {
+          "package_id": "M7",
+          "truck_id": "T-large",
+          "position": {
+            "x": 2,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 1
+        },
+        {
+          "package_id": "M8",
+          "truck_id": "T-small",
+          "position": {
+            "x": 2,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 2
+        },
+        {
+          "package_id": "M9",
+          "truck_id": "T-large",
+          "position": {
+            "x": 3,
+            "y": 2,
+            "z": 0
+          },
+          "orientation": 2
+        }
+      ]
+    },
+    "final_objective": 208.0,
+    "trace": [
+      {
+        "step": 0,
+        "evaluations": 1,
+        "objective": 208.0,
+        "best_objective": 208.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": null,
+        "stuck": null,
+        "population_mean_objective": null,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      }
+    ],
+    "config": {
+      "algorithm": "steepest_ascent",
+      "objective": "total_value",
+      "seed": 42,
+      "max_evaluations": 50000,
+      "max_sideways": 100,
+      "max_iterations": 10000,
+      "num_restarts": 10,
+      "t_min": 0.001,
+      "calibration_samples": 100,
+      "population_size": 50,
+      "generations": 100,
+      "crossover_prob": 0.9,
+      "mutation_prob": null
+    }
+  },
+  "problem": {
+    "trucks": [
+      {
+        "id": "T-large",
+        "dimensions": {
+          "width": 9,
+          "length": 6,
+          "height": 5
+        },
+        "max_capacity": 28.0
+      },
+      {
+        "id": "T-medium",
+        "dimensions": {
+          "width": 7,
+          "length": 5,
+          "height": 4
+        },
+        "max_capacity": 20.0
+      },
+      {
+        "id": "T-small",
+        "dimensions": {
+          "width": 5,
+          "length": 4,
+          "height": 3
+        },
+        "max_capacity": 12.0
+      }
+    ],
+    "packages": [
+      {
+        "id": "M1",
+        "dimensions": {
+          "width": 8,
+          "length": 5,
+          "height": 2
+        },
+        "value": 55.0,
+        "weight": 16.0,
+        "is_fragile": false,
+        "eta": 4
+      },
+      {
+        "id": "M10",
+        "dimensions": {
+          "width": 3,
+          "length": 2,
+          "height": 2
+        },
+        "value": 17.0,
+        "weight": 4.0,
+        "is_fragile": false,
+        "eta": 3
+      },
+      {
+        "id": "M11",
+        "dimensions": {
+          "width": 2,
+          "length": 2,
+          "height": 2
+        },
+        "value": 15.0,
+        "weight": 3.0,
+        "is_fragile": false,
+        "eta": 0
+      },
+      {
+        "id": "M12",
+        "dimensions": {
+          "width": 10,
+          "length": 2,
+          "height": 1
+        },
+        "value": 60.0,
+        "weight": 10.0,
+        "is_fragile": false,
+        "eta": 0
+      },
+      {
+        "id": "M2",
+        "dimensions": {
+          "width": 6,
+          "length": 4,
+          "height": 3
+        },
+        "value": 42.0,
+        "weight": 12.0,
+        "is_fragile": false,
+        "eta": 1
+      },
+      {
+        "id": "M3",
+        "dimensions": {
+          "width": 5,
+          "length": 4,
+          "height": 2
+        },
+        "value": 34.0,
+        "weight": 10.0,
+        "is_fragile": false,
+        "eta": 3
+      },
+      {
+        "id": "M4",
+        "dimensions": {
+          "width": 4,
+          "length": 3,
+          "height": 3
+        },
+        "value": 30.0,
+        "weight": 9.0,
+        "is_fragile": false,
+        "eta": 0
+      },
+      {
+        "id": "M5",
+        "dimensions": {
+          "width": 7,
+          "length": 2,
+          "height": 2
+        },
+        "value": 28.0,
+        "weight": 8.0,
+        "is_fragile": false,
+        "eta": 2
+      },
+      {
+        "id": "M6",
+        "dimensions": {
+          "width": 3,
+          "length": 3,
+          "height": 2
+        },
+        "value": 24.0,
+        "weight": 7.0,
+        "is_fragile": true,
+        "eta": 0
+      },
+      {
+        "id": "M7",
+        "dimensions": {
+          "width": 2,
+          "length": 5,
+          "height": 2
+        },
+        "value": 22.0,
+        "weight": 6.0,
+        "is_fragile": false,
+        "eta": 5
+      },
+      {
+        "id": "M8",
+        "dimensions": {
+          "width": 2,
+          "length": 2,
+          "height": 3
+        },
+        "value": 20.0,
+        "weight": 5.0,
+        "is_fragile": true,
+        "eta": 1
+      },
+      {
+        "id": "M9",
+        "dimensions": {
+          "width": 4,
+          "length": 2,
+          "height": 1
+        },
+        "value": 18.0,
+        "weight": 4.0,
+        "is_fragile": false,
+        "eta": 2
+      }
+    ]
+  }
+}

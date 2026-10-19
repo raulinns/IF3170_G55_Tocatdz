@@ -1,0 +1,384 @@
+{
+  "run_id": "20261020-024936-195756",
+  "started_at": "2026-10-20T02:49:36.195756+07:00",
+  "elapsed_seconds": 0.003227007000532467,
+  "artifact_dir": null,
+  "config": {
+    "algorithm": "stochastic",
+    "objective": "total_value",
+    "seed": 137,
+    "max_evaluations": 50000,
+    "max_sideways": 100,
+    "max_iterations": 10000,
+    "num_restarts": 10,
+    "t_min": 0.001,
+    "calibration_samples": 100,
+    "population_size": 50,
+    "generations": 100,
+    "crossover_prob": 0.9,
+    "mutation_prob": null
+  },
+  "metrics": {
+    "algorithm": "stochastic",
+    "algorithm_name": "Hill Climbing · Stochastic",
+    "objective": "total_value",
+    "seed": 137,
+    "stopped_reason": "converged",
+    "iterations": 2,
+    "evaluations": 74,
+    "elapsed_seconds": 0.003227007000532467,
+    "initial_objective": 30.0,
+    "final_objective": 36.0,
+    "best_objective": 36.0,
+    "best_total_value": 36.0,
+    "best_urgency_score": 27.333333333333332,
+    "inside_count": 3,
+    "outside_count": 3,
+    "trucks": {
+      "T1": {
+        "weight": 10.0,
+        "value": 36.0,
+        "package_count": 3
+      }
+    },
+    "final_summary": {
+      "objective": 36.0,
+      "total_value": 36.0,
+      "urgency_score": 27.333333333333332,
+      "inside_count": 3,
+      "outside_count": 3,
+      "trucks": {
+        "T1": {
+          "weight": 10.0,
+          "value": 36.0,
+          "package_count": 3
+        }
+      }
+    },
+    "algorithm_metrics": {
+      "uphill_moves_selected": 2,
+      "mean_selection_probability": 0.7272727272727273
+    }
+  },
+  "result": {
+    "algorithm": "stochastic",
+    "objective": "total_value",
+    "seed": 137,
+    "evaluations_used": 74,
+    "stopped_reason": "converged",
+    "initial_state": {
+      "placements": [
+        {
+          "package_id": "A",
+          "truck_id": null,
+          "position": null,
+          "orientation": 0
+        },
+        {
+          "package_id": "B",
+          "truck_id": null,
+          "position": null,
+          "orientation": 0
+        },
+        {
+          "package_id": "C",
+          "truck_id": "T1",
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 4
+        },
+        {
+          "package_id": "D",
+          "truck_id": "T1",
+          "position": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 0
+        },
+        {
+          "package_id": "E",
+          "truck_id": "T1",
+          "position": {
+            "x": 0,
+            "y": 2,
+            "z": 0
+          },
+          "orientation": 1
+        },
+        {
+          "package_id": "F",
+          "truck_id": null,
+          "position": null,
+          "orientation": 0
+        }
+      ]
+    },
+    "initial_objective": 30.0,
+    "best_state": {
+      "placements": [
+        {
+          "package_id": "A",
+          "truck_id": null,
+          "position": null,
+          "orientation": 0
+        },
+        {
+          "package_id": "B",
+          "truck_id": "T1",
+          "position": {
+            "x": 0,
+            "y": 2,
+            "z": 0
+          },
+          "orientation": 0
+        },
+        {
+          "package_id": "C",
+          "truck_id": "T1",
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 4
+        },
+        {
+          "package_id": "D",
+          "truck_id": "T1",
+          "position": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 0
+        },
+        {
+          "package_id": "E",
+          "truck_id": null,
+          "position": null,
+          "orientation": 1
+        },
+        {
+          "package_id": "F",
+          "truck_id": null,
+          "position": null,
+          "orientation": 0
+        }
+      ]
+    },
+    "best_objective": 36.0,
+    "final_state": {
+      "placements": [
+        {
+          "package_id": "A",
+          "truck_id": null,
+          "position": null,
+          "orientation": 0
+        },
+        {
+          "package_id": "B",
+          "truck_id": "T1",
+          "position": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 0
+        },
+        {
+          "package_id": "C",
+          "truck_id": "T1",
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 4
+        },
+        {
+          "package_id": "D",
+          "truck_id": "T1",
+          "position": {
+            "x": 0,
+            "y": 2,
+            "z": 0
+          },
+          "orientation": 0
+        },
+        {
+          "package_id": "E",
+          "truck_id": null,
+          "position": null,
+          "orientation": 1
+        },
+        {
+          "package_id": "F",
+          "truck_id": null,
+          "position": null,
+          "orientation": 0
+        }
+      ]
+    },
+    "final_objective": 36.0,
+    "trace": [
+      {
+        "step": 0,
+        "evaluations": 1,
+        "objective": 30.0,
+        "best_objective": 30.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": null,
+        "stuck": null,
+        "population_mean_objective": null,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 1,
+        "evaluations": 25,
+        "objective": 35.0,
+        "best_objective": 36.0,
+        "temperature": null,
+        "delta": 5.0,
+        "accept_prob": 0.45454545454545453,
+        "random_draw": null,
+        "accepted": true,
+        "generation": null,
+        "stuck": null,
+        "population_mean_objective": null,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 2,
+        "evaluations": 49,
+        "objective": 36.0,
+        "best_objective": 36.0,
+        "temperature": null,
+        "delta": 1.0,
+        "accept_prob": 1.0,
+        "random_draw": null,
+        "accepted": true,
+        "generation": null,
+        "stuck": null,
+        "population_mean_objective": null,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      }
+    ],
+    "config": {
+      "algorithm": "stochastic",
+      "objective": "total_value",
+      "seed": 137,
+      "max_evaluations": 50000,
+      "max_sideways": 100,
+      "max_iterations": 10000,
+      "num_restarts": 10,
+      "t_min": 0.001,
+      "calibration_samples": 100,
+      "population_size": 50,
+      "generations": 100,
+      "crossover_prob": 0.9,
+      "mutation_prob": null
+    }
+  },
+  "problem": {
+    "trucks": [
+      {
+        "id": "T1",
+        "dimensions": {
+          "width": 4,
+          "length": 4,
+          "height": 2
+        },
+        "max_capacity": 10.0
+      }
+    ],
+    "packages": [
+      {
+        "id": "A",
+        "dimensions": {
+          "width": 4,
+          "length": 2,
+          "height": 1
+        },
+        "value": 18.0,
+        "weight": 6.0,
+        "is_fragile": false,
+        "eta": 3
+      },
+      {
+        "id": "B",
+        "dimensions": {
+          "width": 2,
+          "length": 2,
+          "height": 1
+        },
+        "value": 14.0,
+        "weight": 4.0,
+        "is_fragile": false,
+        "eta": 0
+      },
+      {
+        "id": "C",
+        "dimensions": {
+          "width": 2,
+          "length": 2,
+          "height": 1
+        },
+        "value": 13.0,
+        "weight": 4.0,
+        "is_fragile": false,
+        "eta": 2
+      },
+      {
+        "id": "D",
+        "dimensions": {
+          "width": 1,
+          "length": 2,
+          "height": 1
+        },
+        "value": 9.0,
+        "weight": 2.0,
+        "is_fragile": true,
+        "eta": 0
+      },
+      {
+        "id": "E",
+        "dimensions": {
+          "width": 1,
+          "length": 2,
+          "height": 1
+        },
+        "value": 8.0,
+        "weight": 2.0,
+        "is_fragile": false,
+        "eta": 4
+      },
+      {
+        "id": "F",
+        "dimensions": {
+          "width": 3,
+          "length": 3,
+          "height": 2
+        },
+        "value": 25.0,
+        "weight": 11.0,
+        "is_fragile": false,
+        "eta": 1
+      }
+    ]
+  }
+}

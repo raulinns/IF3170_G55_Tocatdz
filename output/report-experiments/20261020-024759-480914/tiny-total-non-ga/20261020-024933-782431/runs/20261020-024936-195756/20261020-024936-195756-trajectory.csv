@@ -1,0 +1,4 @@
+step,evaluations,objective,best_objective,temperature,delta,accept_prob,random_draw,accepted,generation,stuck,population_mean_objective,sideways_moves,restart,iteration_in_restart
+0,1,30.0,30.0,,,,,,,,,,,
+1,25,35.0,36.0,,5.0,0.45454545454545453,,True,,,,,,
+2,49,36.0,36.0,,1.0,1.0,,True,,,,,,

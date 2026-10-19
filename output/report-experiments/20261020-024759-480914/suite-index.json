@@ -1,0 +1,128 @@
+{
+  "suite_id": "20261020-024759-480914",
+  "created_at": "2026-10-20T02:51:31.695834+07:00",
+  "repo": "/home/raulin/Documents/Endra/02_Areas/A003_Learning/Semester-5/IF3170_Inteligensi-Artifisial/Tugas-Besar",
+  "stage": "all",
+  "seeds": [
+    42,
+    137,
+    2026
+  ],
+  "main_budget": 50000,
+  "references": {
+    "tiny_exact_total_value": 36.0,
+    "tiny_exact_nodes_explored": 100685,
+    "single_knapsack_upper_bound_total_value": 145.0,
+    "multi_knapsack_upper_bound_total_value": 249.0
+  },
+  "batches": [
+    {
+      "label": "single-total-non-ga",
+      "dataset": "single_truck_constrained.json",
+      "protocol": "non_ga",
+      "objective": "total_value",
+      "experiment_id": "20261020-024759-481420",
+      "experiment_dir": "/home/raulin/Documents/Endra/02_Areas/A003_Learning/Semester-5/IF3170_Inteligensi-Artifisial/Tugas-Besar/output/report-experiments/20261020-024759-480914/single-total-non-ga/20261020-024759-481420",
+      "backup_dir": "/home/raulin/Documents/Codex/2026-10-20/oke-coba-recheck-hasil-pengerjaan-laporan/work/raw-experiment-backup/20261020-024759-480914/single-total-non-ga/20261020-024759-481420",
+      "expected_runs": 15,
+      "successful_runs": 15,
+      "failed_runs": 0
+    },
+    {
+      "label": "single-total-ga-generations",
+      "dataset": "single_truck_constrained.json",
+      "protocol": "ga_generation_sweep",
+      "objective": "total_value",
+      "experiment_id": "20261020-024845-819523",
+      "experiment_dir": "/home/raulin/Documents/Endra/02_Areas/A003_Learning/Semester-5/IF3170_Inteligensi-Artifisial/Tugas-Besar/output/report-experiments/20261020-024759-480914/single-total-ga-generations/20261020-024845-819523",
+      "backup_dir": "/home/raulin/Documents/Codex/2026-10-20/oke-coba-recheck-hasil-pengerjaan-laporan/work/raw-experiment-backup/20261020-024759-480914/single-total-ga-generations/20261020-024845-819523",
+      "expected_runs": 9,
+      "successful_runs": 9,
+      "failed_runs": 0
+    },
+    {
+      "label": "single-total-ga-populations",
+      "dataset": "single_truck_constrained.json",
+      "protocol": "ga_population_sweep",
+      "objective": "total_value",
+      "experiment_id": "20261020-024909-488855",
+      "experiment_dir": "/home/raulin/Documents/Endra/02_Areas/A003_Learning/Semester-5/IF3170_Inteligensi-Artifisial/Tugas-Besar/output/report-experiments/20261020-024759-480914/single-total-ga-populations/20261020-024909-488855",
+      "backup_dir": "/home/raulin/Documents/Codex/2026-10-20/oke-coba-recheck-hasil-pengerjaan-laporan/work/raw-experiment-backup/20261020-024759-480914/single-total-ga-populations/20261020-024909-488855",
+      "expected_runs": 9,
+      "successful_runs": 9,
+      "failed_runs": 0
+    },
+    {
+      "label": "tiny-total-non-ga",
+      "dataset": "tiny_exact.json",
+      "protocol": "non_ga",
+      "objective": "total_value",
+      "experiment_id": "20261020-024933-782431",
+      "experiment_dir": "/home/raulin/Documents/Endra/02_Areas/A003_Learning/Semester-5/IF3170_Inteligensi-Artifisial/Tugas-Besar/output/report-experiments/20261020-024759-480914/tiny-total-non-ga/20261020-024933-782431",
+      "backup_dir": "/home/raulin/Documents/Codex/2026-10-20/oke-coba-recheck-hasil-pengerjaan-laporan/work/raw-experiment-backup/20261020-024759-480914/tiny-total-non-ga/20261020-024933-782431",
+      "expected_runs": 15,
+      "successful_runs": 15,
+      "failed_runs": 0
+    },
+    {
+      "label": "tiny-total-ga",
+      "dataset": "tiny_exact.json",
+      "protocol": "genetic_algorithm",
+      "objective": "total_value",
+      "experiment_id": "20261020-024951-647992",
+      "experiment_dir": "/home/raulin/Documents/Endra/02_Areas/A003_Learning/Semester-5/IF3170_Inteligensi-Artifisial/Tugas-Besar/output/report-experiments/20261020-024759-480914/tiny-total-ga/20261020-024951-647992",
+      "backup_dir": "/home/raulin/Documents/Codex/2026-10-20/oke-coba-recheck-hasil-pengerjaan-laporan/work/raw-experiment-backup/20261020-024759-480914/tiny-total-ga/20261020-024951-647992",
+      "expected_runs": 3,
+      "successful_runs": 3,
+      "failed_runs": 0
+    },
+    {
+      "label": "multi-total-non-ga",
+      "dataset": "multi_truck_constrained.json",
+      "protocol": "non_ga",
+      "objective": "total_value",
+      "experiment_id": "20261020-024954-099824",
+      "experiment_dir": "/home/raulin/Documents/Endra/02_Areas/A003_Learning/Semester-5/IF3170_Inteligensi-Artifisial/Tugas-Besar/output/report-experiments/20261020-024759-480914/multi-total-non-ga/20261020-024954-099824",
+      "backup_dir": "/home/raulin/Documents/Codex/2026-10-20/oke-coba-recheck-hasil-pengerjaan-laporan/work/raw-experiment-backup/20261020-024759-480914/multi-total-non-ga/20261020-024954-099824",
+      "expected_runs": 15,
+      "successful_runs": 15,
+      "failed_runs": 0
+    },
+    {
+      "label": "multi-total-ga",
+      "dataset": "multi_truck_constrained.json",
+      "protocol": "genetic_algorithm",
+      "objective": "total_value",
+      "experiment_id": "20261020-025035-829454",
+      "experiment_dir": "/home/raulin/Documents/Endra/02_Areas/A003_Learning/Semester-5/IF3170_Inteligensi-Artifisial/Tugas-Besar/output/report-experiments/20261020-024759-480914/multi-total-ga/20261020-025035-829454",
+      "backup_dir": "/home/raulin/Documents/Codex/2026-10-20/oke-coba-recheck-hasil-pengerjaan-laporan/work/raw-experiment-backup/20261020-024759-480914/multi-total-ga/20261020-025035-829454",
+      "expected_runs": 3,
+      "successful_runs": 3,
+      "failed_runs": 0
+    },
+    {
+      "label": "single-urgency-non-ga",
+      "dataset": "single_truck_constrained.json",
+      "protocol": "non_ga",
+      "objective": "value_per_urgency",
+      "experiment_id": "20261020-025041-188350",
+      "experiment_dir": "/home/raulin/Documents/Endra/02_Areas/A003_Learning/Semester-5/IF3170_Inteligensi-Artifisial/Tugas-Besar/output/report-experiments/20261020-024759-480914/single-urgency-non-ga/20261020-025041-188350",
+      "backup_dir": "/home/raulin/Documents/Codex/2026-10-20/oke-coba-recheck-hasil-pengerjaan-laporan/work/raw-experiment-backup/20261020-024759-480914/single-urgency-non-ga/20261020-025041-188350",
+      "expected_runs": 15,
+      "successful_runs": 15,
+      "failed_runs": 0
+    },
+    {
+      "label": "single-urgency-ga",
+      "dataset": "single_truck_constrained.json",
+      "protocol": "genetic_algorithm",
+      "objective": "value_per_urgency",
+      "experiment_id": "20261020-025124-443068",
+      "experiment_dir": "/home/raulin/Documents/Endra/02_Areas/A003_Learning/Semester-5/IF3170_Inteligensi-Artifisial/Tugas-Besar/output/report-experiments/20261020-024759-480914/single-urgency-ga/20261020-025124-443068",
+      "backup_dir": "/home/raulin/Documents/Codex/2026-10-20/oke-coba-recheck-hasil-pengerjaan-laporan/work/raw-experiment-backup/20261020-024759-480914/single-urgency-ga/20261020-025124-443068",
+      "expected_runs": 3,
+      "successful_runs": 3,
+      "failed_runs": 0
+    }
+  ]
+}

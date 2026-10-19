@@ -1,0 +1,1421 @@
+{
+  "run_id": "20261020-024845-819842",
+  "started_at": "2026-10-20T02:48:45.819842+07:00",
+  "elapsed_seconds": 0.7655848779995722,
+  "artifact_dir": null,
+  "config": {
+    "algorithm": "genetic_algorithm",
+    "objective": "total_value",
+    "seed": 42,
+    "max_evaluations": 2550,
+    "max_sideways": 100,
+    "max_iterations": 10000,
+    "num_restarts": 10,
+    "t_min": 0.001,
+    "calibration_samples": 100,
+    "population_size": 50,
+    "generations": 50,
+    "crossover_prob": 0.9,
+    "mutation_prob": null
+  },
+  "metrics": {
+    "algorithm": "genetic_algorithm",
+    "algorithm_name": "Genetic Algorithm",
+    "objective": "total_value",
+    "seed": 42,
+    "stopped_reason": "generation_limit",
+    "iterations": 50,
+    "evaluations": 2550,
+    "elapsed_seconds": 0.7655848779995722,
+    "initial_objective": 80.0,
+    "final_objective": 116.0,
+    "best_objective": 121.0,
+    "best_total_value": 121.0,
+    "best_urgency_score": 59.166666666666664,
+    "inside_count": 8,
+    "outside_count": 4,
+    "trucks": {
+      "T1": {
+        "weight": 30.0,
+        "value": 121.0,
+        "package_count": 8
+      }
+    },
+    "final_summary": {
+      "objective": 116.0,
+      "total_value": 116.0,
+      "urgency_score": 50.0,
+      "inside_count": 6,
+      "outside_count": 6,
+      "trucks": {
+        "T1": {
+          "weight": 30.0,
+          "value": 116.0,
+          "package_count": 6
+        }
+      }
+    },
+    "algorithm_metrics": {
+      "generations_completed": 50,
+      "final_population_mean": 98.64,
+      "best_generation": 1
+    }
+  },
+  "result": {
+    "algorithm": "genetic_algorithm",
+    "objective": "total_value",
+    "seed": 42,
+    "evaluations_used": 2550,
+    "stopped_reason": "generation_limit",
+    "initial_state": {
+      "placements": [
+        {
+          "package_id": "P1",
+          "truck_id": null,
+          "position": null,
+          "orientation": 0
+        },
+        {
+          "package_id": "P10",
+          "truck_id": "T1",
+          "position": {
+            "x": 5,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 1
+        },
+        {
+          "package_id": "P11",
+          "truck_id": "T1",
+          "position": {
+            "x": 5,
+            "y": 1,
+            "z": 0
+          },
+          "orientation": 4
+        },
+        {
+          "package_id": "P12",
+          "truck_id": null,
+          "position": null,
+          "orientation": 0
+        },
+        {
+          "package_id": "P2",
+          "truck_id": "T1",
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 1
+        },
+        {
+          "package_id": "P3",
+          "truck_id": null,
+          "position": null,
+          "orientation": 5
+        },
+        {
+          "package_id": "P4",
+          "truck_id": null,
+          "position": null,
+          "orientation": 4
+        },
+        {
+          "package_id": "P5",
+          "truck_id": "T1",
+          "position": {
+            "x": 0,
+            "y": 2,
+            "z": 0
+          },
+          "orientation": 0
+        },
+        {
+          "package_id": "P6",
+          "truck_id": null,
+          "position": null,
+          "orientation": 2
+        },
+        {
+          "package_id": "P7",
+          "truck_id": "T1",
+          "position": {
+            "x": 3,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 2
+        },
+        {
+          "package_id": "P8",
+          "truck_id": null,
+          "position": null,
+          "orientation": 0
+        },
+        {
+          "package_id": "P9",
+          "truck_id": null,
+          "position": null,
+          "orientation": 4
+        }
+      ]
+    },
+    "initial_objective": 80.0,
+    "best_state": {
+      "placements": [
+        {
+          "package_id": "P1",
+          "truck_id": null,
+          "position": null,
+          "orientation": 2
+        },
+        {
+          "package_id": "P10",
+          "truck_id": "T1",
+          "position": {
+            "x": 5,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 2
+        },
+        {
+          "package_id": "P11",
+          "truck_id": "T1",
+          "position": {
+            "x": 0,
+            "y": 2,
+            "z": 0
+          },
+          "orientation": 4
+        },
+        {
+          "package_id": "P12",
+          "truck_id": null,
+          "position": null,
+          "orientation": 5
+        },
+        {
+          "package_id": "P2",
+          "truck_id": null,
+          "position": null,
+          "orientation": 5
+        },
+        {
+          "package_id": "P3",
+          "truck_id": null,
+          "position": null,
+          "orientation": 5
+        },
+        {
+          "package_id": "P4",
+          "truck_id": "T1",
+          "position": {
+            "x": 2,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 2
+        },
+        {
+          "package_id": "P5",
+          "truck_id": "T1",
+          "position": {
+            "x": 0,
+            "y": 3,
+            "z": 0
+          },
+          "orientation": 3
+        },
+        {
+          "package_id": "P6",
+          "truck_id": "T1",
+          "position": {
+            "x": 6,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 5
+        },
+        {
+          "package_id": "P7",
+          "truck_id": "T1",
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 2
+        },
+        {
+          "package_id": "P8",
+          "truck_id": "T1",
+          "position": {
+            "x": 0,
+            "y": 4,
+            "z": 0
+          },
+          "orientation": 4
+        },
+        {
+          "package_id": "P9",
+          "truck_id": "T1",
+          "position": {
+            "x": 4,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 4
+        }
+      ]
+    },
+    "best_objective": 121.0,
+    "final_state": {
+      "placements": [
+        {
+          "package_id": "P1",
+          "truck_id": null,
+          "position": null,
+          "orientation": 2
+        },
+        {
+          "package_id": "P10",
+          "truck_id": null,
+          "position": null,
+          "orientation": 1
+        },
+        {
+          "package_id": "P11",
+          "truck_id": null,
+          "position": null,
+          "orientation": 4
+        },
+        {
+          "package_id": "P12",
+          "truck_id": null,
+          "position": null,
+          "orientation": 1
+        },
+        {
+          "package_id": "P2",
+          "truck_id": null,
+          "position": null,
+          "orientation": 0
+        },
+        {
+          "package_id": "P3",
+          "truck_id": "T1",
+          "position": {
+            "x": 3,
+            "y": 1,
+            "z": 0
+          },
+          "orientation": 0
+        },
+        {
+          "package_id": "P4",
+          "truck_id": "T1",
+          "position": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 0
+        },
+        {
+          "package_id": "P5",
+          "truck_id": "T1",
+          "position": {
+            "x": 3,
+            "y": 3,
+            "z": 0
+          },
+          "orientation": 0
+        },
+        {
+          "package_id": "P6",
+          "truck_id": "T1",
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 4
+        },
+        {
+          "package_id": "P7",
+          "truck_id": "T1",
+          "position": {
+            "x": 0,
+            "y": 2,
+            "z": 0
+          },
+          "orientation": 3
+        },
+        {
+          "package_id": "P8",
+          "truck_id": null,
+          "position": null,
+          "orientation": 2
+        },
+        {
+          "package_id": "P9",
+          "truck_id": "T1",
+          "position": {
+            "x": 3,
+            "y": 0,
+            "z": 0
+          },
+          "orientation": 1
+        }
+      ]
+    },
+    "final_objective": 116.0,
+    "trace": [
+      {
+        "step": 0,
+        "evaluations": 50,
+        "objective": 114.0,
+        "best_objective": 114.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 0,
+        "stuck": null,
+        "population_mean_objective": 84.16,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 1,
+        "evaluations": 100,
+        "objective": 121.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 1,
+        "stuck": null,
+        "population_mean_objective": 98.52,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 2,
+        "evaluations": 150,
+        "objective": 121.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 2,
+        "stuck": null,
+        "population_mean_objective": 97.68,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 3,
+        "evaluations": 200,
+        "objective": 121.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 3,
+        "stuck": null,
+        "population_mean_objective": 97.98,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 4,
+        "evaluations": 250,
+        "objective": 121.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 4,
+        "stuck": null,
+        "population_mean_objective": 99.4,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 5,
+        "evaluations": 300,
+        "objective": 121.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 5,
+        "stuck": null,
+        "population_mean_objective": 102.12,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 6,
+        "evaluations": 350,
+        "objective": 120.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 6,
+        "stuck": null,
+        "population_mean_objective": 101.06,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 7,
+        "evaluations": 400,
+        "objective": 121.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 7,
+        "stuck": null,
+        "population_mean_objective": 100.18,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 8,
+        "evaluations": 450,
+        "objective": 120.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 8,
+        "stuck": null,
+        "population_mean_objective": 99.56,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 9,
+        "evaluations": 500,
+        "objective": 116.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 9,
+        "stuck": null,
+        "population_mean_objective": 103.96,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 10,
+        "evaluations": 550,
+        "objective": 116.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 10,
+        "stuck": null,
+        "population_mean_objective": 101.96,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 11,
+        "evaluations": 600,
+        "objective": 116.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 11,
+        "stuck": null,
+        "population_mean_objective": 102.04,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 12,
+        "evaluations": 650,
+        "objective": 116.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 12,
+        "stuck": null,
+        "population_mean_objective": 103.3,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 13,
+        "evaluations": 700,
+        "objective": 116.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 13,
+        "stuck": null,
+        "population_mean_objective": 103.76,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 14,
+        "evaluations": 750,
+        "objective": 117.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 14,
+        "stuck": null,
+        "population_mean_objective": 100.7,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 15,
+        "evaluations": 800,
+        "objective": 116.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 15,
+        "stuck": null,
+        "population_mean_objective": 103.34,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 16,
+        "evaluations": 850,
+        "objective": 116.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 16,
+        "stuck": null,
+        "population_mean_objective": 106.72,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 17,
+        "evaluations": 900,
+        "objective": 116.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 17,
+        "stuck": null,
+        "population_mean_objective": 106.06,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 18,
+        "evaluations": 950,
+        "objective": 116.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 18,
+        "stuck": null,
+        "population_mean_objective": 107.34,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 19,
+        "evaluations": 1000,
+        "objective": 116.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 19,
+        "stuck": null,
+        "population_mean_objective": 107.58,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 20,
+        "evaluations": 1050,
+        "objective": 116.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 20,
+        "stuck": null,
+        "population_mean_objective": 106.86,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 21,
+        "evaluations": 1100,
+        "objective": 116.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 21,
+        "stuck": null,
+        "population_mean_objective": 106.68,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 22,
+        "evaluations": 1150,
+        "objective": 116.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 22,
+        "stuck": null,
+        "population_mean_objective": 106.88,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 23,
+        "evaluations": 1200,
+        "objective": 116.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 23,
+        "stuck": null,
+        "population_mean_objective": 106.5,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 24,
+        "evaluations": 1250,
+        "objective": 116.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 24,
+        "stuck": null,
+        "population_mean_objective": 105.44,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 25,
+        "evaluations": 1300,
+        "objective": 116.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 25,
+        "stuck": null,
+        "population_mean_objective": 104.74,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 26,
+        "evaluations": 1350,
+        "objective": 116.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 26,
+        "stuck": null,
+        "population_mean_objective": 107.24,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 27,
+        "evaluations": 1400,
+        "objective": 116.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 27,
+        "stuck": null,
+        "population_mean_objective": 104.92,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 28,
+        "evaluations": 1450,
+        "objective": 118.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 28,
+        "stuck": null,
+        "population_mean_objective": 105.6,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 29,
+        "evaluations": 1500,
+        "objective": 118.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 29,
+        "stuck": null,
+        "population_mean_objective": 105.72,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 30,
+        "evaluations": 1550,
+        "objective": 115.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 30,
+        "stuck": null,
+        "population_mean_objective": 104.42,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 31,
+        "evaluations": 1600,
+        "objective": 118.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 31,
+        "stuck": null,
+        "population_mean_objective": 104.58,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 32,
+        "evaluations": 1650,
+        "objective": 121.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 32,
+        "stuck": null,
+        "population_mean_objective": 104.78,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 33,
+        "evaluations": 1700,
+        "objective": 118.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 33,
+        "stuck": null,
+        "population_mean_objective": 104.32,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 34,
+        "evaluations": 1750,
+        "objective": 113.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 34,
+        "stuck": null,
+        "population_mean_objective": 102.16,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 35,
+        "evaluations": 1800,
+        "objective": 112.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 35,
+        "stuck": null,
+        "population_mean_objective": 103.62,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 36,
+        "evaluations": 1850,
+        "objective": 118.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 36,
+        "stuck": null,
+        "population_mean_objective": 105.18,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 37,
+        "evaluations": 1900,
+        "objective": 116.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 37,
+        "stuck": null,
+        "population_mean_objective": 105.22,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 38,
+        "evaluations": 1950,
+        "objective": 121.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 38,
+        "stuck": null,
+        "population_mean_objective": 106.04,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 39,
+        "evaluations": 2000,
+        "objective": 118.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 39,
+        "stuck": null,
+        "population_mean_objective": 104.7,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 40,
+        "evaluations": 2050,
+        "objective": 118.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 40,
+        "stuck": null,
+        "population_mean_objective": 103.62,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 41,
+        "evaluations": 2100,
+        "objective": 118.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 41,
+        "stuck": null,
+        "population_mean_objective": 104.78,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 42,
+        "evaluations": 2150,
+        "objective": 117.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 42,
+        "stuck": null,
+        "population_mean_objective": 102.2,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 43,
+        "evaluations": 2200,
+        "objective": 118.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 43,
+        "stuck": null,
+        "population_mean_objective": 101.16,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 44,
+        "evaluations": 2250,
+        "objective": 117.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 44,
+        "stuck": null,
+        "population_mean_objective": 98.9,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 45,
+        "evaluations": 2300,
+        "objective": 118.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 45,
+        "stuck": null,
+        "population_mean_objective": 100.7,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 46,
+        "evaluations": 2350,
+        "objective": 118.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 46,
+        "stuck": null,
+        "population_mean_objective": 99.16,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 47,
+        "evaluations": 2400,
+        "objective": 118.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 47,
+        "stuck": null,
+        "population_mean_objective": 97.64,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 48,
+        "evaluations": 2450,
+        "objective": 117.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 48,
+        "stuck": null,
+        "population_mean_objective": 94.46,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 49,
+        "evaluations": 2500,
+        "objective": 118.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 49,
+        "stuck": null,
+        "population_mean_objective": 98.4,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      },
+      {
+        "step": 50,
+        "evaluations": 2550,
+        "objective": 116.0,
+        "best_objective": 121.0,
+        "temperature": null,
+        "delta": null,
+        "accept_prob": null,
+        "random_draw": null,
+        "accepted": null,
+        "generation": 50,
+        "stuck": null,
+        "population_mean_objective": 98.64,
+        "sideways_moves": null,
+        "restart": null,
+        "iteration_in_restart": null
+      }
+    ],
+    "config": {
+      "algorithm": "genetic_algorithm",
+      "objective": "total_value",
+      "seed": 42,
+      "max_evaluations": 2550,
+      "max_sideways": 100,
+      "max_iterations": 10000,
+      "num_restarts": 10,
+      "t_min": 0.001,
+      "calibration_samples": 100,
+      "population_size": 50,
+      "generations": 50,
+      "crossover_prob": 0.9,
+      "mutation_prob": null
+    }
+  },
+  "problem": {
+    "trucks": [
+      {
+        "id": "T1",
+        "dimensions": {
+          "width": 8,
+          "length": 6,
+          "height": 4
+        },
+        "max_capacity": 30.0
+      }
+    ],
+    "packages": [
+      {
+        "id": "P1",
+        "dimensions": {
+          "width": 4,
+          "length": 3,
+          "height": 2
+        },
+        "value": 32.0,
+        "weight": 10.0,
+        "is_fragile": false,
+        "eta": 3
+      },
+      {
+        "id": "P10",
+        "dimensions": {
+          "width": 2,
+          "length": 1,
+          "height": 1
+        },
+        "value": 9.0,
+        "weight": 2.0,
+        "is_fragile": false,
+        "eta": 0
+      },
+      {
+        "id": "P11",
+        "dimensions": {
+          "width": 1,
+          "length": 1,
+          "height": 3
+        },
+        "value": 8.0,
+        "weight": 2.0,
+        "is_fragile": false,
+        "eta": 3
+      },
+      {
+        "id": "P12",
+        "dimensions": {
+          "width": 9,
+          "length": 1,
+          "height": 1
+        },
+        "value": 40.0,
+        "weight": 4.0,
+        "is_fragile": false,
+        "eta": 0
+      },
+      {
+        "id": "P2",
+        "dimensions": {
+          "width": 3,
+          "length": 2,
+          "height": 2
+        },
+        "value": 26.0,
+        "weight": 8.0,
+        "is_fragile": true,
+        "eta": 0
+      },
+      {
+        "id": "P3",
+        "dimensions": {
+          "width": 5,
+          "length": 2,
+          "height": 1
+        },
+        "value": 25.0,
+        "weight": 7.0,
+        "is_fragile": false,
+        "eta": 2
+      },
+      {
+        "id": "P4",
+        "dimensions": {
+          "width": 2,
+          "length": 2,
+          "height": 3
+        },
+        "value": 24.0,
+        "weight": 6.0,
+        "is_fragile": false,
+        "eta": 1
+      },
+      {
+        "id": "P5",
+        "dimensions": {
+          "width": 3,
+          "length": 3,
+          "height": 1
+        },
+        "value": 20.0,
+        "weight": 5.0,
+        "is_fragile": true,
+        "eta": 4
+      },
+      {
+        "id": "P6",
+        "dimensions": {
+          "width": 2,
+          "length": 4,
+          "height": 1
+        },
+        "value": 18.0,
+        "weight": 4.0,
+        "is_fragile": false,
+        "eta": 0
+      },
+      {
+        "id": "P7",
+        "dimensions": {
+          "width": 2,
+          "length": 2,
+          "height": 2
+        },
+        "value": 17.0,
+        "weight": 5.0,
+        "is_fragile": false,
+        "eta": 2
+      },
+      {
+        "id": "P8",
+        "dimensions": {
+          "width": 1,
+          "length": 3,
+          "height": 2
+        },
+        "value": 13.0,
+        "weight": 3.0,
+        "is_fragile": true,
+        "eta": 1
+      },
+      {
+        "id": "P9",
+        "dimensions": {
+          "width": 4,
+          "length": 1,
+          "height": 1
+        },
+        "value": 12.0,
+        "weight": 3.0,
+        "is_fragile": false,
+        "eta": 5
+      }
+    ]
+  }
+}
