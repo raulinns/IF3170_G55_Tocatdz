@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Callable
+from dataclasses import dataclass
 
 from ...domain.model import Problem, State
 from ...search.moves import iter_feasible_neighbors
@@ -9,6 +10,7 @@ from ...search.run import (
     BudgetExhausted,
     RunCancelled,
     RunConfig,
+    RunContext,
     SearchResult,
     StopReason,
     TracePoint,
@@ -19,24 +21,26 @@ from .common import (
 )
 
 
-"""Menjalankan steepest-ascent pada seluruh feasible neighbor"""
-def run_steepest_ascent(
-    problem: Problem,
-    config: RunConfig,
-    *,
-    initial_state: State | None = None,
-    on_progress: Callable[[TracePoint], None] | None = None,
-) -> SearchResult:
-    if config.algorithm is not AlgorithmKind.STEEPEST_ASCENT:
-        raise ValueError("run_steepest_ascent requires algorithm=steepest_ascent")
+@dataclass(frozen=True, slots=True)
+class _ClimbResult:
+    state: State
+    objective: float
+    iterations: int
+    stopped_reason: StopReason
 
-    context = create_run_context(problem, config, on_progress)
-    initial = resolve_initial_state(problem, context, initial_state)
-    initial_objective = context.evaluate(initial)
-    current = initial
+
+def _run_steepest_climb(
+    problem: Problem,
+    context: RunContext,
+    initial_state: State,
+    initial_objective: float,
+    *,
+    restart: int | None = None,
+) -> _ClimbResult:
+    """Menjalankan satu climb steepest-ascent."""
+    current = initial_state
     current_objective = initial_objective
-    context.record(current_objective)
-    stopped_reason = StopReason.CONVERGED
+    iterations = 0
 
     try:
         while True:
@@ -64,25 +68,58 @@ def run_steepest_ascent(
                         selected_state = neighbor
 
             if selected_state is None:
-                break
+                return _ClimbResult(
+                    current,
+                    current_objective,
+                    iterations,
+                    StopReason.CONVERGED,
+                )
 
             delta = selected_objective - current_objective
             current = selected_state
             current_objective = selected_objective
+            iterations += 1
             context.record(
                 current_objective,
                 delta=delta,
                 accepted=True,
+                restart=restart,
+                iteration_in_restart=iterations if restart is not None else None,
             )
     except BudgetExhausted:
-        stopped_reason = StopReason.BUDGET_EXHAUSTED
+        reason = StopReason.BUDGET_EXHAUSTED
     except RunCancelled:
-        stopped_reason = StopReason.CANCELLED
+        reason = StopReason.CANCELLED
+
+    return _ClimbResult(current, current_objective, iterations, reason)
+
+
+"""Menjalankan steepest-ascent pada seluruh feasible neighbor"""
+def run_steepest_ascent(
+    problem: Problem,
+    config: RunConfig,
+    *,
+    initial_state: State | None = None,
+    on_progress: Callable[[TracePoint], None] | None = None,
+) -> SearchResult:
+    if config.algorithm is not AlgorithmKind.STEEPEST_ASCENT:
+        raise ValueError("run_steepest_ascent requires algorithm=steepest_ascent")
+
+    context = create_run_context(problem, config, on_progress)
+    initial = resolve_initial_state(problem, context, initial_state)
+    initial_objective = context.evaluate(initial)
+    context.record(initial_objective)
+    climb = _run_steepest_climb(
+        problem,
+        context,
+        initial,
+        initial_objective,
+    )
 
     return context.build_result(
         initial_state=initial,
         initial_objective=initial_objective,
-        final_state=current,
-        final_objective=current_objective,
-        stopped_reason=stopped_reason,
+        final_state=climb.state,
+        final_objective=climb.objective,
+        stopped_reason=climb.stopped_reason,
     )
