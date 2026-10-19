@@ -16,12 +16,12 @@ class ExperimentRunSpec:
 
 
 PROTOCOLS = (
-    "specification",
-    "non_ga",
-    "ga_population_sweep",
-    "ga_generation_sweep",
-    "fairness",
-    "hc_comparison",
+    "steepest_ascent",
+    "sideways",
+    "stochastic",
+    "random_restart",
+    "simulated_annealing",
+    "genetic_algorithm",
 )
 
 _HC_ALGORITHMS = (
@@ -60,7 +60,21 @@ def build_run_specs(config: ExperimentConfig) -> list[ExperimentRunSpec]:
             case_id = f"{case_id}-run-{len(runs) + 1}"
         runs.append(ExperimentRunSpec(case_id, group_id, label, run_config))
 
-    if protocol in {"non_ga", "hc_comparison"}:
+    algorithm_protocols = {
+        algorithm.value: algorithm
+        for algorithm in (*_HC_ALGORITHMS, AlgorithmKind.SIMULATED_ANNEALING)
+    }
+
+    if protocol in algorithm_protocols:
+        algorithm = algorithm_protocols[protocol]
+        for seed in config.seeds:
+            add(
+                algorithm.value,
+                algorithm.value,
+                _spec(algorithm, seed, config.objective, config.max_evaluations),
+            )
+    elif protocol in {"non_ga", "hc_comparison"}:
+        # Legacy protocol names remain readable for older saved configurations.
         algorithms = _HC_ALGORITHMS if protocol == "hc_comparison" else (
             *_HC_ALGORITHMS,
             AlgorithmKind.SIMULATED_ANNEALING,
@@ -73,7 +87,25 @@ def build_run_specs(config: ExperimentConfig) -> list[ExperimentRunSpec]:
                     algorithm.value,
                     _spec(algorithm, seed, config.objective, config.max_evaluations),
                 )
+    elif protocol == "genetic_algorithm":
+        budget = required_evaluations(config.population_size, config.generations)
+        for seed in config.seeds:
+            add(
+                AlgorithmKind.GENETIC_ALGORITHM.value,
+                "Genetic Algorithm",
+                _spec(
+                    AlgorithmKind.GENETIC_ALGORITHM,
+                    seed,
+                    config.objective,
+                    budget,
+                    parameters={
+                        "population_size": config.population_size,
+                        "generations": config.generations,
+                    },
+                ),
+            )
     elif protocol == "ga_population_sweep":
+        # Legacy protocol for older saved experiment configurations.
         for population in (20, 50, 100):
             generations = 100
             budget = required_evaluations(population, generations)
@@ -91,6 +123,7 @@ def build_run_specs(config: ExperimentConfig) -> list[ExperimentRunSpec]:
                     ),
                 )
     elif protocol == "ga_generation_sweep":
+        # Legacy protocol for older saved experiment configurations.
         population = 50
         for generations in (50, 100, 200):
             budget = required_evaluations(population, generations)
