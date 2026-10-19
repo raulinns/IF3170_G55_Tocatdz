@@ -22,6 +22,7 @@ class AlgorithmKind(StrEnum):
 class StopReason(StrEnum):
     CONVERGED = "converged"
     BUDGET_EXHAUSTED = "budget_exhausted"
+    SIDEWAYS_LIMIT = "sideways_limit"
     ITERATION_LIMIT = "iteration_limit"
     GENERATION_LIMIT = "generation_limit"
     RESTART_LIMIT = "restart_limit"
@@ -147,6 +148,7 @@ class TracePoint:
     accepted: bool | None = None
     generation: int | None = None
     stuck: bool | None = None
+    sideways_moves: int | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -161,6 +163,7 @@ class TracePoint:
             "accepted": self.accepted,
             "generation": self.generation,
             "stuck": self.stuck,
+            "sideways_moves": self.sideways_moves,
         }
 
     @classmethod
@@ -185,6 +188,9 @@ class TracePoint:
             if data.get("generation") is None
             else int(data["generation"]),
             stuck=None if data.get("stuck") is None else bool(data["stuck"]),
+            sideways_moves=None
+            if data.get("sideways_moves") is None
+            else int(data["sideways_moves"]),
         )
 
 
@@ -372,6 +378,7 @@ class RunContext:
         accepted: bool | None = None,
         generation: int | None = None,
         stuck: bool | None = None,
+        sideways_moves: int | None = None,
     ) -> TracePoint:
         point = TracePoint(
             step=self._step,
@@ -385,6 +392,7 @@ class RunContext:
             accepted=accepted,
             generation=generation,
             stuck=stuck,
+            sideways_moves=sideways_moves,
         )
         self._step += 1
         self.trace.append(point)
