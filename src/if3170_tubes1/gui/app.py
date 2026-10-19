@@ -14,6 +14,7 @@ from if3170_tubes1.gui.input_form import (
     render_problem_editor,
     render_run_config,
 )
+from if3170_tubes1.gui.experiment_view import render_experiment_area
 from if3170_tubes1.gui.result_view import render_result_area
 from if3170_tubes1.io import (
     example_problem_data,
@@ -104,18 +105,40 @@ def main() -> None:
                 st.rerun()
         st.caption("Format JSON memakai `name`, `trucks`, dan `packages`.")
         st.divider()
-        config = render_run_config()
-        persist_artifacts = st.toggle(
-            "Simpan artefak run",
-            value=True,
-            help="Menyimpan JSON, CSV, metrics, dan PNG ke output/runs.",
+        mode = st.radio(
+            "Mode kerja",
+            ("Single Run", "Experiments"),
+            horizontal=True,
+            key="workspace_mode",
         )
+        if mode == "Single Run":
+            config = render_run_config()
+            persist_artifacts = st.toggle(
+                "Simpan artefak run",
+                value=True,
+                help="Menyimpan JSON, CSV, metrics, dan PNG ke output/runs.",
+            )
+        else:
+            config = None
+            persist_artifacts = False
 
     payload = render_problem_editor(
         st.session_state["draft"], st.session_state["editor_version"]
     )
     st.session_state["draft"] = payload
     problem_token = json.dumps(payload, sort_keys=True, ensure_ascii=False)
+    if mode == "Experiments":
+        try:
+            experiment_problem = parse_problem_data(payload)
+        except ValidationError as error:
+            _show_validation_error(error)
+            return
+        render_experiment_area(experiment_problem)
+        st.divider()
+        st.caption("Experiment workspace · setiap eksperimen disimpan terpisah di output/experiments.")
+        return
+
+    assert config is not None
     preview_token = (problem_token, config.seed)
     result_token = (preview_token, json.dumps(config.to_dict(), sort_keys=True))
     if st.session_state.get("preview_token") != preview_token:
@@ -234,7 +257,7 @@ def main() -> None:
         )
 
     st.divider()
-    st.caption("Single-run workspace · hasil tersimpan dapat digunakan oleh experiment engine pada fase berikutnya.")
+    st.caption("Single-run workspace · eksperimen multi-run tersedia melalui mode Experiments.")
 
 
 if __name__ == "__main__":

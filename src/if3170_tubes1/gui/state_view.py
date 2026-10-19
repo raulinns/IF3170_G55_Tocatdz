@@ -137,10 +137,28 @@ def render_state(
     summary = summarize_state(problem, state, objective)
     metrics = st.columns(5)
     metrics[0].metric("Objective", f"{summary['objective']:,.2f}")
-    metrics[1].metric("Total value", f"{summary['total_value']:,.2f}")
+    metrics[1].metric("Total value armada", f"{summary['total_value']:,.2f}")
     metrics[2].metric("Urgency score", f"{summary['urgency_score']:,.2f}")
     metrics[3].metric("Di dalam", summary["inside_count"])
     metrics[4].metric("Di luar", summary["outside_count"])
+
+    st.markdown("#### Ringkasan per truk")
+    st.dataframe(
+        pd.DataFrame(
+            [
+                {
+                    "Truk": truck.id,
+                    "Paket": summary["trucks"][truck.id]["package_count"],
+                    "Berat": summary["trucks"][truck.id]["weight"],
+                    "Kapasitas": truck.max_capacity,
+                    "Value": summary["trucks"][truck.id]["value"],
+                }
+                for truck in problem.trucks
+            ]
+        ),
+        hide_index=True,
+        width="stretch",
+    )
 
     tabs = st.tabs([truck.id for truck in problem.trucks])
     for tab, truck in zip(tabs, problem.trucks):
