@@ -46,25 +46,26 @@ def write_experiment_artifacts(
     summary: list[dict[str, Any]],
 ) -> None:
     experiment_dir.mkdir(parents=True, exist_ok=True)
-    _write_csv(experiment_dir / "runs.csv", runs)
-    _write_csv(experiment_dir / "summary.csv", summary)
-    (experiment_dir / "manifest.json").write_text(
-        json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8"
+    timestamp = str(manifest["experiment_id"])
+    _write_csv(experiment_dir / f"{timestamp}-rekap.csv", summary)
+    (experiment_dir / f"{timestamp}-rekap.json").write_text(
+        json.dumps({"summary": summary, "runs": runs}, ensure_ascii=False, indent=2),
+        encoding="utf-8",
     )
     _write_chart(
-        experiment_dir / "objective-comparison.png",
+        experiment_dir / f"{timestamp}-objective.png",
         summary,
         "best_objective",
         "Perbandingan objective (median)",
     )
     _write_chart(
-        experiment_dir / "duration-comparison.png",
+        experiment_dir / f"{timestamp}-durasi.png",
         summary,
         "elapsed_seconds",
         "Perbandingan durasi (median)",
     )
     _write_chart(
-        experiment_dir / "evaluation-comparison.png",
+        experiment_dir / f"{timestamp}-evaluasi.png",
         summary,
         "evaluations",
         "Perbandingan evaluasi (median)",

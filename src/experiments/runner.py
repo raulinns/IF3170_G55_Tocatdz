@@ -1,10 +1,10 @@
 from __future__ import annotations
 
 import json
-import secrets
-from datetime import datetime, timezone
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Callable
+from zoneinfo import ZoneInfo
 
 from domain.constraints import validate_state
 from execution.runner import execute_run
@@ -20,8 +20,8 @@ ProgressCallback = Callable[[int, int, ExperimentRunSpec, dict[str, Any]], None]
 
 
 def _experiment_id() -> str:
-    now = datetime.now(timezone.utc)
-    return f"{now:%Y%m%dT%H%M%SZ}-{secrets.token_hex(4)}"
+    now = datetime.now(ZoneInfo("Asia/Jakarta"))
+    return f"{now:%Y%m%d-%H%M%S-%f}"
 
 
 def _record_metrics(spec: ExperimentRunSpec, completed: Any, artifact_dir: Path) -> dict[str, Any]:
@@ -76,7 +76,7 @@ def run_experiment(
     experiment_id = _experiment_id()
     experiment_dir = (Path(config.output_root) / experiment_id).resolve()
     experiment_dir.mkdir(parents=True, exist_ok=False)
-    run_artifact_root = experiment_dir / "run-artifacts"
+    run_artifact_root = experiment_dir / "runs"
     run_artifact_root.mkdir()
     records: list[dict[str, Any]] = []
 
@@ -122,24 +122,26 @@ def run_experiment(
     successes = sum(record["status"] == "success" for record in records)
     manifest = {
         "experiment_id": experiment_id,
-        "created_at": datetime.now(timezone.utc).isoformat(),
+        "created_at": datetime.now(ZoneInfo("Asia/Jakarta")).isoformat(),
         "protocol": config.protocol,
         "problem": problem_to_data(config.problem),
         "objective": config.objective.value,
         "seeds": list(config.seeds),
         "max_evaluations": config.max_evaluations,
+        "population_size": config.population_size,
+        "generations": config.generations,
         "expected_runs": len(specs),
         "attempted_runs": len(records),
         "successful_runs": successes,
         "failed_runs": len(records) - successes,
         "note": "Hasil 3 seed bersifat deskriptif; bukan klaim signifikansi statistik.",
         "files": [
-            "runs.csv",
-            "summary.csv",
-            "objective-comparison.png",
-            "duration-comparison.png",
-            "evaluation-comparison.png",
-            "run-artifacts/",
+            f"{experiment_id}-rekap.csv",
+            f"{experiment_id}-rekap.json",
+            f"{experiment_id}-objective.png",
+            f"{experiment_id}-durasi.png",
+            f"{experiment_id}-evaluasi.png",
+            "runs/",
         ],
     }
     write_experiment_artifacts(experiment_dir, manifest, records, summary)

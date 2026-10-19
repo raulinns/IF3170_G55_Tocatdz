@@ -7,7 +7,6 @@ from pathlib import Path
 from typing import Any
 
 from problem_io.problem_json import problem_to_data
-from search.run import state_to_dict
 from .model import CompletedRun
 
 
@@ -72,6 +71,100 @@ def _write_objective_plot(path: Path, run: CompletedRun) -> None:
     plt.close(figure)
 
 
+def _box_faces(x: float, y: float, z: float, width: float, length: float, height: float):
+    points = (
+        (x, y, z), (x + width, y, z), (x + width, y + length, z), (x, y + length, z),
+        (x, y, z + height), (x + width, y, z + height),
+        (x + width, y + length, z + height), (x, y + length, z + height),
+    )
+    return (
+        (points[0], points[1], points[2], points[3]),
+        (points[4], points[5], points[6], points[7]),
+        (points[0], points[1], points[5], points[4]),
+        (points[2], points[3], points[7], points[6]),
+        (points[1], points[2], points[6], points[5]),
+        (points[0], points[3], points[7], points[4]),
+    )
+
+
+def _write_3d_viewer(path: Path, run: CompletedRun) -> None:
+    """Simpan snapshot solusi terbaik dengan koordinat lokal per truk."""
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    from mpl_toolkits.mplot3d.art3d import Poly3DCollection
+
+    figure = plt.figure(figsize=(11, 6.5), constrained_layout=True)
+    axis = figure.add_subplot(111, projection="3d")
+    colors = plt.get_cmap("tab20")
+    gap = max(2.0, *(truck.dimensions.width * 0.35 for truck in run.problem.trucks))
+    offset = 0.0
+    max_length = max(truck.dimensions.length for truck in run.problem.trucks)
+    max_height = max(truck.dimensions.height for truck in run.problem.trucks)
+
+    for truck in run.problem.trucks:
+        dimensions = truck.dimensions
+        outline = Poly3DCollection(
+            _box_faces(offset, 0, 0, dimensions.width, dimensions.length, dimensions.height),
+            facecolors=(1, 1, 1, 0), edgecolors="#7d899b", linewidths=1.2,
+        )
+        axis.add_collection3d(outline)
+        axis.text(
+            offset + dimensions.width / 2,
+            dimensions.length / 2,
+            dimensions.height + 0.45,
+            truck.id,
+            ha="center",
+            fontsize=9,
+            weight="bold",
+        )
+        placements = (
+            placement for placement in run.result.best_state.placements
+            if placement.truck_id == truck.id and placement.position is not None
+        )
+        for index, placement in enumerate(placements):
+            package = run.problem.package(placement.package_id)
+            size = package.dimensions.oriented(placement.orientation)
+            position = placement.position
+            assert position is not None
+            x = offset + position.x
+            collection = Poly3DCollection(
+                _box_faces(x, position.y, position.z, size.width, size.length, size.height),
+                facecolors=colors(index % 20), edgecolors="#263244", linewidths=0.65,
+                alpha=1.0,
+            )
+            axis.add_collection3d(collection)
+            axis.text(
+                x + size.width / 2,
+                position.y + size.length / 2,
+                position.z + size.height + max(0.12, max_height * 0.025),
+                package.id,
+                ha="center",
+                va="bottom",
+                fontsize=8,
+                weight="bold",
+                color="#172033",
+                zorder=1000,
+                bbox={
+                    "boxstyle": "round,pad=0.25",
+                    "facecolor": (1, 1, 1, 0.88),
+                    "edgecolor": (1, 1, 1, 0.95),
+                    "linewidth": 0.5,
+                },
+            )
+        offset += dimensions.width + gap
+
+    axis.set_xlim(0, max(1.0, offset - gap))
+    axis.set_ylim(0, max_length)
+    axis.set_zlim(0, max_height + 1)
+    axis.view_init(elev=24, azim=-56)
+    axis.set_box_aspect((max(1.0, offset - gap), max_length, max_height + 1))
+    axis.set_axis_off()
+    figure.savefig(path, dpi=170, facecolor="#f8fafc")
+    plt.close(figure)
+
+
 def write_run_artifacts(
     run: CompletedRun,
     output_root: str | Path,
@@ -86,43 +179,13 @@ def write_run_artifacts(
 
     temporary_dir.mkdir()
     try:
-        _write_json(temporary_dir / "problem.json", problem_to_data(run.problem))
-        _write_json(
-            temporary_dir / "initial-state.json",
-            state_to_dict(run.result.initial_state),
-        )
-        _write_json(
-            temporary_dir / "final-state.json",
-            state_to_dict(run.result.final_state),
-        )
-        _write_json(
-            temporary_dir / "best-state.json",
-            state_to_dict(run.result.best_state),
-        )
-        _write_json(temporary_dir / "metrics.json", run.metrics)
-        _write_trajectory(temporary_dir / "trajectory.csv", run)
-        _write_objective_plot(temporary_dir / "objective.png", run)
-        _write_json(
-            temporary_dir / "manifest.json",
-            {
-                "run_id": run.run_id,
-                "started_at": run.started_at,
-                "elapsed_seconds": run.elapsed_seconds,
-                "algorithm": run.config.algorithm.value,
-                "objective": run.config.objective.value,
-                "seed": run.config.seed,
-                "config": run.config.to_dict(),
-                "files": [
-                    "problem.json",
-                    "initial-state.json",
-                    "final-state.json",
-                    "best-state.json",
-                    "trajectory.csv",
-                    "metrics.json",
-                    "objective.png",
-                ],
-            },
-        )
+        prefix = run.run_id
+        result_data = run.to_dict()
+        result_data["problem"] = problem_to_data(run.problem)
+        _write_json(temporary_dir / f"{prefix}-hasil.json", result_data)
+        _write_trajectory(temporary_dir / f"{prefix}-trajectory.csv", run)
+        _write_objective_plot(temporary_dir / f"{prefix}-objective.png", run)
+        _write_3d_viewer(temporary_dir / f"{prefix}-3d-viewer.png", run)
         temporary_dir.replace(final_dir)
     except Exception:
         if temporary_dir.exists():

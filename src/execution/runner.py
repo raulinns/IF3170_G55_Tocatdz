@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-import secrets
 from dataclasses import replace
-from datetime import datetime, timezone
+from datetime import datetime
 from pathlib import Path
 from time import perf_counter
+from zoneinfo import ZoneInfo
 
 from analysis.run_metrics import build_run_metrics
 from domain.model import Problem
@@ -15,9 +15,9 @@ from .model import CompletedRun
 
 
 def _new_run_identity() -> tuple[str, str]:
-    now = datetime.now(timezone.utc)
+    now = datetime.now(ZoneInfo("Asia/Jakarta"))
     started_at = now.isoformat()
-    run_id = f"{now:%Y%m%dT%H%M%S}-{secrets.token_hex(4)}"
+    run_id = f"{now:%Y%m%d-%H%M%S-%f}"
     return run_id, started_at
 
 
