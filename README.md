@@ -29,11 +29,13 @@ uv run streamlit run src/if3170_tubes1/gui/app.py
 ```
 
 GUI dapat mengedit data truk/paket, upload atau download JSON, memvalidasi input,
-dan menampilkan preview penempatan 3D berdasarkan seed. Runner Genetic Algorithm
-sudah terintegrasi: upload JSON, pilih **Genetic Algorithm**, klik
-**Validasi & buat preview**, lalu **Run algoritma**. Algoritma lain baru dapat
-dijalankan setelah runner-nya didaftarkan di
-`src/if3170_tubes1/search/dispatch.py`.
+dan menampilkan preview penempatan 3D berdasarkan seed. Seluruh runner Hill
+Climbing, Simulated Annealing, dan Genetic Algorithm sudah terintegrasi. Pilih
+algoritma dan objective, klik **Validasi & buat preview**, lalu **Mulai
+pencarian**.
+
+Jika opsi penyimpanan artefak aktif, hasil run ditulis ke `output/runs/<run-id>/`
+dalam bentuk JSON state/metrics, CSV trajectory, dan PNG objective.
 
 ## Pembagian Tugas
 

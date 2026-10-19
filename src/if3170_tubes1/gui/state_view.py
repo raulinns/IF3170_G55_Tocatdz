@@ -135,11 +135,12 @@ def render_state(
     problem: Problem, state: State, objective: ObjectiveKind, *, key: str
 ) -> None:
     summary = summarize_state(problem, state, objective)
-    metrics = st.columns(4)
+    metrics = st.columns(5)
     metrics[0].metric("Objective", f"{summary['objective']:,.2f}")
     metrics[1].metric("Total value", f"{summary['total_value']:,.2f}")
-    metrics[2].metric("Di dalam", summary["inside_count"])
-    metrics[3].metric("Di luar", summary["outside_count"])
+    metrics[2].metric("Urgency score", f"{summary['urgency_score']:,.2f}")
+    metrics[3].metric("Di dalam", summary["inside_count"])
+    metrics[4].metric("Di luar", summary["outside_count"])
 
     tabs = st.tabs([truck.id for truck in problem.trucks])
     for tab, truck in zip(tabs, problem.trucks):
@@ -175,6 +176,7 @@ def render_state(
                         "Ukuran": f"{package.dimensions.width} × {package.dimensions.length} × {package.dimensions.height}",
                         "Value": package.value,
                         "Berat": package.weight,
+                        "ETA": package.eta,
                         "Fragile": "Ya" if package.is_fragile else "Tidak",
                     }
                     for package in outside
