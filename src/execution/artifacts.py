@@ -6,6 +6,7 @@ import shutil
 from pathlib import Path
 from typing import Any
 
+from domain.model import State
 from problem_io.problem_json import problem_to_data
 from .model import CompletedRun
 
@@ -87,8 +88,8 @@ def _box_faces(x: float, y: float, z: float, width: float, length: float, height
     )
 
 
-def _write_3d_viewer(path: Path, run: CompletedRun) -> None:
-    """Simpan snapshot solusi terbaik dengan koordinat lokal per truk."""
+def _write_3d_viewer(path: Path, run: CompletedRun, state: State) -> None:
+    """Simpan snapshot state dengan koordinat lokal per truk."""
     import matplotlib
 
     matplotlib.use("Agg")
@@ -120,7 +121,7 @@ def _write_3d_viewer(path: Path, run: CompletedRun) -> None:
             weight="bold",
         )
         placements = (
-            placement for placement in run.result.best_state.placements
+            placement for placement in state.placements
             if placement.truck_id == truck.id and placement.position is not None
         )
         for index, placement in enumerate(placements):
@@ -185,7 +186,16 @@ def write_run_artifacts(
         _write_json(temporary_dir / f"{prefix}-hasil.json", result_data)
         _write_trajectory(temporary_dir / f"{prefix}-trajectory.csv", run)
         _write_objective_plot(temporary_dir / f"{prefix}-objective.png", run)
-        _write_3d_viewer(temporary_dir / f"{prefix}-3d-viewer.png", run)
+        _write_3d_viewer(
+            temporary_dir / f"{prefix}-initial-3d-viewer.png",
+            run,
+            run.result.initial_state,
+        )
+        _write_3d_viewer(
+            temporary_dir / f"{prefix}-best-3d-viewer.png",
+            run,
+            run.result.best_state,
+        )
         temporary_dir.replace(final_dir)
     except Exception:
         if temporary_dir.exists():
