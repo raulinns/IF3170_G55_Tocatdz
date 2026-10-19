@@ -1,13 +1,17 @@
 from __future__ import annotations
 
+import hashlib
 import json
 
 import pandas as pd
 import streamlit as st
 
 from ..domain.model import Problem, State
+from ..domain.constraints import validate_state
+from ..analysis.reference import knapsack_upper_bound, solve_tiny_exact
 from ..execution.model import CompletedRun
-from ..search.run import AlgorithmKind, RunConfig, SearchResult
+from ..search.run import AlgorithmKind, RunConfig, SearchResult, state_to_dict
+from ..io.problem_json import problem_to_data
 from .charts import render_trace
 from .state_view import render_state
 
@@ -69,6 +73,69 @@ def _render_algorithm_metrics(result: SearchResult, metrics: dict[str, object]) 
         column.metric(label, _metric_value(algorithm_metrics.get(key)))
 
 
+def _render_reference(problem: Problem, config: RunConfig, result: SearchResult | None) -> None:
+    problem_key = json.dumps(problem_to_data(problem), sort_keys=True)
+    digest = hashlib.sha256(problem_key.encode("utf-8")).hexdigest()[:12]
+    state_key = f"reference:{digest}:{config.objective.value}"
+    st.markdown("#### Pembanding reference")
+    if len(problem.packages) <= 6:
+        if st.button("Hitung exact optimum", key=f"exact:{state_key}"):
+            reference = solve_tiny_exact(problem, config.objective)
+            st.session_state[state_key] = {
+                "kind": "exact",
+                "value": reference.value,
+                "state": state_to_dict(reference.state),
+                "nodes": reference.nodes_explored,
+                "feasible": validate_state(problem, reference.state).is_valid,
+            }
+    else:
+        if st.button("Hitung knapsack upper bound", key=f"bound:{state_key}"):
+            st.session_state[state_key] = {
+                "kind": "upper_bound",
+                "value": knapsack_upper_bound(problem, config.objective),
+            }
+
+    reference = st.session_state.get(state_key)
+    if reference is None:
+        st.caption("Hitung reference untuk membandingkan hasil pencarian.")
+        return
+    if reference["kind"] == "exact":
+        st.metric("Exact optimum", _metric_value(reference["value"]))
+        st.caption(
+            f"Certificate feasible: {reference['feasible']}; "
+            f"node ditelusuri: {reference['nodes']}."
+        )
+        st.download_button(
+            "Unduh exact certificate",
+            data=json.dumps(
+                {
+                    "objective": config.objective.value,
+                    "value": reference["value"],
+                    "feasible": reference["feasible"],
+                    "state": reference["state"],
+                },
+                ensure_ascii=False,
+                indent=2,
+            ),
+            file_name="exact-reference-certificate.json",
+            mime="application/json",
+            key=f"certificate:{state_key}",
+        )
+        if (
+            result is not None
+            and problem.name == "Tiny known optimum"
+            and result.objective == config.objective
+        ):
+            gap = max(0.0, reference["value"] - result.best_objective)
+            st.metric("Gap to global optimum", _metric_value(gap))
+    else:
+        st.metric("Knapsack upper bound", _metric_value(reference["value"]))
+        st.caption("Relaksasi ini mengabaikan geometri, support, dan pembagian paket per truk.")
+        if result is not None and result.objective == config.objective:
+            gap = max(0.0, reference["value"] - result.best_objective)
+            st.metric("Gap to upper bound", _metric_value(gap))
+
+
 def render_result_area(
     problem: Problem,
     preview: State,
@@ -115,6 +182,8 @@ def render_result_area(
             st.caption(f"Artefak lokal: `{completed.artifact_dir}`")
         _render_algorithm_metrics(result, metrics)
 
+    _render_reference(problem, config, result)
+
     initial_tab, final_tab, best_tab, chart_tab = st.tabs(
         ["Initial state", "Final state", "Best state", "Grafik"]
     )
@@ -124,7 +193,10 @@ def render_result_area(
             render_state(problem, preview, config.objective, key="preview")
         else:
             if result.algorithm is AlgorithmKind.GENETIC_ALGORITHM:
-                st.caption("Individu terbaik dari populasi awal GA.")
+                st.caption(
+                    "State awal adalah individu pertama yang dibuat pada populasi GA. "
+                    "Grafik generasi 0 menampilkan fitness terbaik seluruh populasi awal."
+                )
             render_state(problem, result.initial_state, result.objective, key="initial")
     with final_tab:
         if result is None:

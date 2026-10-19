@@ -212,12 +212,28 @@ def render_run_config() -> RunConfig:
             st.number_input("Jumlah generasi", min_value=1, value=100)
         )
         values["crossover_prob"] = st.slider(
-            "Peluang crossover", min_value=0.0, max_value=1.0, value=0.9, step=0.05
+            "Peluang crossover per anak",
+            min_value=0.0,
+            max_value=1.0,
+            value=0.9,
+            step=0.05,
+            help="Gunakan 1,0 untuk selalu melakukan crossover seperti pseudocode kuliah.",
         )
-        automatic = st.checkbox("Peluang mutasi otomatis (1/jumlah paket)", value=True)
-        if not automatic:
+        use_default_mutation = st.checkbox(
+            "Gunakan peluang mutasi default (0,2 per anak)",
+            value=True,
+            help=(
+                "Setiap anak berpeluang 0,2 untuk dimutasi. Operator swap, rotate, "
+                "atau reassign lalu dipilih untuk mengubah gene."
+            ),
+        )
+        if not use_default_mutation:
             values["mutation_prob"] = st.slider(
-                "Peluang mutasi", min_value=0.0, max_value=1.0, value=0.1, step=0.01
+                "Peluang mutasi per anak",
+                min_value=0.0,
+                max_value=1.0,
+                value=0.2,
+                step=0.01,
             )
 
     return RunConfig(**values)
