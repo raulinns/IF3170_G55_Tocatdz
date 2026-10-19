@@ -81,13 +81,14 @@ def render_result_area(
     result = None if completed is None else completed.result
     if completed is not None:
         metrics = completed.metrics
-        columns = st.columns(6)
+        columns = st.columns(7)
         columns[0].metric("Best objective", f"{result.best_objective:,.2f}")
         columns[1].metric("Raw value", f"{metrics['best_total_value']:,.2f}")
-        columns[2].metric("Iterasi", metrics["iterations"])
-        columns[3].metric("Evaluasi", result.evaluations_used)
-        columns[4].metric("Paket masuk", metrics["inside_count"])
-        columns[5].metric("Durasi", f"{completed.elapsed_seconds:.3f} s")
+        columns[2].metric("Urgency score", f"{metrics['best_urgency_score']:,.2f}")
+        columns[3].metric("Iterasi", metrics["iterations"])
+        columns[4].metric("Evaluasi", result.evaluations_used)
+        columns[5].metric("Paket masuk", metrics["inside_count"])
+        columns[6].metric("Durasi", f"{completed.elapsed_seconds:.3f} s")
 
         st.markdown(
             f"**{metrics['algorithm_name']}** · objective `{result.objective.value}` · "

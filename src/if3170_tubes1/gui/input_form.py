@@ -144,7 +144,6 @@ def render_problem_editor(draft: dict[str, Any], version: int) -> dict[str, Any]
         },
     )
 
-    # JSON round-trip converts pandas/numpy scalars and missing cells to JSON values.
     truck_records = json.loads(trucks.to_json(orient="records"))
     package_records = json.loads(packages.to_json(orient="records"))
     return rows_to_problem_data(name, truck_records, package_records)
@@ -163,8 +162,16 @@ def render_run_config() -> RunConfig:
         "Objective",
         list(ObjectiveKind),
         format_func=lambda item: OBJECTIVE_LABELS[item],
-        help="Urgency-adjusted value menggunakan Σ value / (ETA + 1).",
+        help=(
+            "Urgency-adjusted value = Σ value / (ETA + 1). ETA yang lebih kecil "
+            "membuat kontribusi paket lebih besar, sehingga mendapat prioritas lebih tinggi."
+        ),
     )
+    if objective is ObjectiveKind.VALUE_PER_URGENCY:
+        st.caption(
+            "ETA kecil mendapat prioritas lebih tinggi: skor paket dihitung sebagai "
+            "value ÷ (ETA + 1). Raw total value tetap dilaporkan terpisah."
+        )
     st.caption(ALGORITHM_HELP[algorithm])
     seed = st.number_input("Seed", value=42, step=1)
     max_evaluations = st.number_input(
