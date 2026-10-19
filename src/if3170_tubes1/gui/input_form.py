@@ -19,6 +19,20 @@ ALGORITHM_LABELS = {
     AlgorithmKind.GENETIC_ALGORITHM: "Genetic Algorithm",
 }
 
+OBJECTIVE_LABELS = {
+    ObjectiveKind.TOTAL_VALUE: "Total value",
+    ObjectiveKind.VALUE_PER_URGENCY: "Urgency-adjusted value",
+}
+
+ALGORITHM_HELP = {
+    AlgorithmKind.STEEPEST_ASCENT: "Memilih feasible neighbor dengan peningkatan terbesar.",
+    AlgorithmKind.SIDEWAYS: "Mengizinkan perpindahan bernilai sama untuk keluar dari plateau.",
+    AlgorithmKind.STOCHASTIC: "Memilih secara acak dari uphill moves berdasarkan steepness.",
+    AlgorithmKind.RANDOM_RESTART: "Menjalankan steepest-ascent dari beberapa initial state.",
+    AlgorithmKind.SIMULATED_ANNEALING: "Sesekali menerima downhill move berdasarkan temperatur.",
+    AlgorithmKind.GENETIC_ALGORITHM: "Mengembangkan populasi solusi dengan seleksi, crossover, dan mutasi.",
+}
+
 
 def truck_rows(data: dict[str, Any]) -> list[dict[str, Any]]:
     return [
@@ -137,7 +151,7 @@ def render_problem_editor(draft: dict[str, Any], version: int) -> dict[str, Any]
 
 
 def render_run_config() -> RunConfig:
-    st.subheader("Konfigurasi")
+    st.subheader("Konfigurasi pencarian")
     algorithm = st.selectbox(
         "Algoritma",
         list(AlgorithmKind),
@@ -148,10 +162,10 @@ def render_run_config() -> RunConfig:
     objective = st.selectbox(
         "Objective",
         list(ObjectiveKind),
-        format_func=lambda item: (
-            "Total value" if item is ObjectiveKind.TOTAL_VALUE else "Value / (ETA + 1)"
-        ),
+        format_func=lambda item: OBJECTIVE_LABELS[item],
+        help="Urgency-adjusted value menggunakan Σ value / (ETA + 1).",
     )
+    st.caption(ALGORITHM_HELP[algorithm])
     seed = st.number_input("Seed", value=42, step=1)
     max_evaluations = st.number_input(
         "Batas evaluasi", min_value=1, value=50_000, step=1_000
@@ -176,6 +190,9 @@ def render_run_config() -> RunConfig:
             st.number_input("Maksimum restart", min_value=0, value=10)
         )
     elif algorithm is AlgorithmKind.SIMULATED_ANNEALING:
+        values["max_iterations"] = int(
+            st.number_input("Maksimum iterasi", min_value=0, value=10_000)
+        )
         values["t_min"] = st.number_input("Temperatur minimum", min_value=0.000001, value=0.001, format="%.6f")
         values["calibration_samples"] = int(
             st.number_input("Sampel kalibrasi", min_value=0, value=100)
@@ -197,3 +214,15 @@ def render_run_config() -> RunConfig:
             )
 
     return RunConfig(**values)
+
+
+__all__ = [
+    "ALGORITHM_HELP",
+    "ALGORITHM_LABELS",
+    "OBJECTIVE_LABELS",
+    "package_rows",
+    "render_problem_editor",
+    "render_run_config",
+    "rows_to_problem_data",
+    "truck_rows",
+]

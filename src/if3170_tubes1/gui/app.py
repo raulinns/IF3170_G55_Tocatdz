@@ -2,12 +2,13 @@ from __future__ import annotations
 
 import json
 import random
-from time import perf_counter
+from pathlib import Path
 
 import streamlit as st
 from pydantic import ValidationError
 
 from if3170_tubes1.domain import build_random_state, validate_state
+from if3170_tubes1.execution import execute_run
 from if3170_tubes1.gui.input_form import (
     ALGORITHM_LABELS,
     render_problem_editor,
@@ -20,11 +21,17 @@ from if3170_tubes1.io import (
     parse_problem_json,
     problem_to_data,
 )
-from if3170_tubes1.search.dispatch import RUNNERS, run_search
+from if3170_tubes1.search.dispatch import RUNNERS
 
 
 def _clear_preview() -> None:
-    for key in ("validated_problem", "preview", "preview_token", "result", "result_token", "elapsed_seconds"):
+    for key in (
+        "validated_problem",
+        "preview",
+        "preview_token",
+        "completed_run",
+        "result_token",
+    ):
         st.session_state.pop(key, None)
 
 
@@ -49,8 +56,16 @@ def main() -> None:
             margin: .45rem 0 .5rem; letter-spacing: -.035em;}
         .hero p {font-size: 1.05rem; color: #E8F1FF; margin: 0; max-width: 740px;}
         [data-testid="stMetric"] {background: #FFFFFF; border: 1px solid #DDE6F2;
-            border-radius: 14px; padding: .8rem 1rem;}
+            border-radius: 16px; padding: .9rem 1rem; box-shadow: 0 5px 20px rgba(23,58,117,.06);}
         [data-testid="stMetricValue"] {font-variant-numeric: tabular-nums;}
+        [data-testid="stSidebar"] {background: #F6F8FC; border-right: 1px solid #E2E8F0;}
+        [data-testid="stDataFrame"], [data-testid="stPlotlyChart"] {
+            border-radius: 16px; overflow: hidden;}
+        .section-kicker {color: #2563EB; font-size: .74rem; letter-spacing: .14em;
+            text-transform: uppercase; font-weight: 800; margin-bottom: .2rem;}
+        .run-banner {background: linear-gradient(135deg, #F8FAFF, #EEF5FF);
+            border: 1px solid #D9E7FF; border-radius: 18px; padding: 1rem 1.2rem;
+            margin: .4rem 0 1rem; color: #173A75;}
         h2, h3 {letter-spacing: -.02em;}
         </style>
         """,
@@ -90,6 +105,11 @@ def main() -> None:
         st.caption("Format JSON memakai `name`, `trucks`, dan `packages`.")
         st.divider()
         config = render_run_config()
+        persist_artifacts = st.toggle(
+            "Simpan artefak run",
+            value=True,
+            help="Menyimpan JSON, CSV, metrics, dan PNG ke output/runs.",
+        )
 
     payload = render_problem_editor(
         st.session_state["draft"], st.session_state["editor_version"]
@@ -101,7 +121,7 @@ def main() -> None:
     if st.session_state.get("preview_token") != preview_token:
         _clear_preview()
     elif st.session_state.get("result_token") != result_token:
-        for key in ("result", "result_token", "elapsed_seconds"):
+        for key in ("completed_run", "result_token"):
             st.session_state.pop(key, None)
 
     try:
@@ -111,7 +131,14 @@ def main() -> None:
     else:
         export_data = json.dumps(problem_to_data(export_problem), ensure_ascii=False, indent=2)
 
-    validate_col, download_col = st.columns([1, 1])
+    st.markdown('<div class="section-kicker">Problem workspace</div>', unsafe_allow_html=True)
+    summary_columns = st.columns(4)
+    summary_columns[0].metric("Algoritma", ALGORITHM_LABELS[config.algorithm].split("·")[-1].strip())
+    summary_columns[1].metric("Objective", config.objective.value.replace("_", " ").title())
+    summary_columns[2].metric("Seed", config.seed)
+    summary_columns[3].metric("Budget", f"{config.max_evaluations:,}")
+
+    validate_col, download_col = st.columns([1.2, 1])
     with validate_col:
         validate_clicked = st.button("Validasi & buat preview", type="primary", width="stretch")
     with download_col:
@@ -146,27 +173,55 @@ def main() -> None:
     preview = st.session_state.get("preview")
     available = config.algorithm in RUNNERS
     st.divider()
+    st.markdown('<div class="section-kicker">Search control</div>', unsafe_allow_html=True)
     st.subheader("Jalankan pencarian")
-    if not available:
-        st.info(
-            f"Runner {ALGORITHM_LABELS.get(config.algorithm, config.algorithm.value)} "
-            "belum terintegrasi di branch ini. "
-            "Preview tetap dapat digunakan; tombol Run akan aktif setelah runner didaftarkan."
-        )
-    elif problem is None:
-        st.caption("Validasi input terlebih dahulu untuk mengaktifkan Run.")
-    if st.button("Run algoritma", disabled=problem is None or not available):
-        start = perf_counter()
+    st.markdown(
+        f'<div class="run-banner"><b>{ALGORITHM_LABELS[config.algorithm]}</b><br>'
+        f'<span>Seed {config.seed} · maksimum {config.max_evaluations:,} evaluations · '
+        f'{"artefak aktif" if persist_artifacts else "tanpa artefak"}</span></div>',
+        unsafe_allow_html=True,
+    )
+    if problem is None:
+        st.caption("Validasi input terlebih dahulu untuk mengaktifkan pencarian.")
+
+    if st.button(
+        "Mulai pencarian",
+        type="primary",
+        width="stretch",
+        disabled=problem is None or not available,
+    ):
+        progress = st.progress(0, text="Menyiapkan pencarian...")
+        status = st.empty()
+
+        def on_progress(point) -> None:
+            fraction = min(1.0, point.evaluations / config.max_evaluations)
+            progress.progress(
+                fraction,
+                text=f"{point.evaluations:,} / {config.max_evaluations:,} evaluations",
+            )
+            status.caption(
+                f"Step {point.step:,} · objective {point.objective:,.2f} · "
+                f"best {point.best_objective:,.2f}"
+            )
+
         try:
-            with st.spinner("Algoritma sedang berjalan..."):
-                result = run_search(problem, config)
+            completed = execute_run(
+                problem,
+                config,
+                on_progress=on_progress,
+                artifact_root=(Path("output") / "runs") if persist_artifacts else None,
+            )
         except Exception as error:
+            progress.empty()
+            status.empty()
             st.error(f"Run gagal: {error}")
         else:
-            st.session_state["result"] = result
-            st.session_state["elapsed_seconds"] = perf_counter() - start
+            progress.progress(1.0, text="Pencarian selesai")
+            st.session_state["completed_run"] = completed
             st.session_state["result_token"] = result_token
-            st.success("Run selesai. Lihat final state, best state, dan grafik di bawah.")
+            st.success(
+                f"Run {completed.run_id} selesai dalam {completed.elapsed_seconds:.3f} detik."
+            )
 
     if problem is None or preview is None:
         st.info("Isi atau upload data, lalu pilih **Validasi & buat preview** untuk melihat armada 3D.")
@@ -175,14 +230,11 @@ def main() -> None:
             problem,
             preview,
             config,
-            st.session_state.get("result"),
-            st.session_state.get("elapsed_seconds"),
+            st.session_state.get("completed_run"),
         )
 
     st.divider()
-    st.caption(
-        "Eksperimen multi-run akan memakai output algoritma yang nyata setelah runner dan protokol eksperimen tersedia."
-    )
+    st.caption("Single-run workspace · hasil tersimpan dapat digunakan oleh experiment engine pada fase berikutnya.")
 
 
 if __name__ == "__main__":
